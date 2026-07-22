@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log In — MR.Play</title>
+<meta name="description" content="Log in to your MR.Play player account and jump back into the game." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700&display=swap" rel="stylesheet" />
+
+<link rel="icon" href="assets/favicon.png" type="image/png" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<noscript>
+  <p class="noscript-banner">This MR.Play demo needs JavaScript enabled to work — please enable it and reload.</p>
+</noscript>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" class="brand" aria-label="MR.Play home">
+        <img src="assets/icon.png" alt="" />
+        <span class="brand-text">MR.Play</span>
+      </a>
+      <div class="nav-actions">
+        <a href="signup.html" class="nav-link">Sign Up</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="auth-main">
+  <div class="container">
+    <div class="auth-card auth-card-narrow">
+
+      <div class="auth-card-header">
+        <span class="eyebrow">Where Research Meets Play</span>
+        <h1>Welcome back</h1>
+        <p>Log in to keep playing.</p>
+      </div>
+
+      <form id="login-form" novalidate>
+        <div class="form-field">
+          <label for="login-identifier">Email or username</label>
+          <input type="text" id="login-identifier" name="identifier" data-label="Email or username" autocomplete="username" required />
+        </div>
+        <div class="form-field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" data-label="Password" autocomplete="current-password" required />
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn btn-primary btn-block">Log in &amp; play</button>
+        </div>
+      </form>
+
+      <div class="success-state">
+        <div class="success-check">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <p class="success-message"></p>
+        <p class="auth-switch">Didn't open automatically? <a href="#" data-fallback-link>Continue to the game</a></p>
+      </div>
+
+      <p class="auth-switch">New here? <a href="signup.html">Sign up</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-row">
+      <a href="index.html" class="brand" aria-label="MR.Play home">
+        <img src="assets/icon.png" alt="" />
+        <span class="brand-text">MR.Play</span>
+      </a>
+      <p class="footer-meta">This is a prototype demo. Nothing you enter is stored. &copy; 2026 Erevna Games.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/validation.js"></script>
+</body>
+</html>

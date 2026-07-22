@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign Up — MR.Play</title>
+<meta name="description" content="Create your MR.Play player account and jump into your first game." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700&display=swap" rel="stylesheet" />
+
+<link rel="icon" href="assets/favicon.png" type="image/png" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<noscript>
+  <p class="noscript-banner">This MR.Play demo needs JavaScript enabled to work — please enable it and reload.</p>
+</noscript>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" class="brand" aria-label="MR.Play home">
+        <img src="assets/icon.png" alt="" />
+        <span class="brand-text">MR.Play</span>
+      </a>
+      <div class="nav-actions">
+        <a href="login.html" class="nav-link">Log In</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="auth-main">
+  <div class="container">
+    <div class="auth-card">
+
+      <div class="auth-card-header">
+        <span class="eyebrow">Where Research Meets Play</span>
+        <h1>Sign up to play</h1>
+        <p>Takes about two minutes. Your answers help us match you with games that fit.</p>
+      </div>
+
+      <form id="signup-form" novalidate>
+
+        <p class="form-section-label">Account</p>
+        <div class="form-grid">
+          <div class="form-field span-2">
+            <label for="signup-name">Full name</label>
+            <input type="text" id="signup-name" name="name" data-label="Full name" autocomplete="name" required />
+          </div>
+          <div class="form-field span-2">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" name="email" data-label="Email" autocomplete="email" required />
+          </div>
+          <div class="form-field">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" name="password" data-role="password" data-label="Password" autocomplete="new-password" required />
+          </div>
+          <div class="form-field">
+            <label for="signup-password-confirm">Confirm password</label>
+            <input type="password" id="signup-password-confirm" name="password_confirm" data-role="password-confirm" data-label="Confirm password" autocomplete="new-password" required />
+          </div>
+        </div>
+
+        <div class="divider-row">or continue with</div>
+        <div class="social-row">
+          <div class="social-button-wrap">
+            <button type="button" class="btn btn-social btn-block" data-social-button="Google">Continue with Google</button>
+            <span class="social-note" aria-live="polite"></span>
+          </div>
+          <div class="social-button-wrap">
+            <button type="button" class="btn btn-social btn-block" data-social-button="Facebook">Continue with Facebook</button>
+            <span class="social-note" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <p class="form-section-label">Tell us about you</p>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="signup-age">Age</label>
+            <select id="signup-age" name="age" data-label="Age" required>
+              <option value="" selected disabled>Select…</option>
+              <option>18–24</option>
+              <option>25–34</option>
+              <option>35–44</option>
+              <option>45–54</option>
+              <option>55–64</option>
+              <option>65+</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="signup-gender">Gender</label>
+            <select id="signup-gender" name="gender" data-label="Gender" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="signup-state">State</label>
+            <select id="signup-state" name="state" data-label="State" required>
+              <option value="" selected disabled>Select…</option>
+              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option>
+              <option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option>
+              <option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option>
+              <option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+              <option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option>
+              <option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option>
+              <option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option>
+              <option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+              <option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option>
+              <option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
+              <option>DC</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="signup-city">City</label>
+            <input type="text" id="signup-city" name="city" data-label="City" required />
+          </div>
+          <div class="form-field">
+            <label for="signup-education">Education</label>
+            <select id="signup-education" name="education" data-label="Education" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Some high school</option>
+              <option>High school diploma</option>
+              <option>Some college</option>
+              <option>Bachelor's degree</option>
+              <option>Graduate degree</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="signup-employment">Employment</label>
+            <select id="signup-employment" name="employment" data-label="Employment" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Employed full-time</option>
+              <option>Employed part-time</option>
+              <option>Self-employed</option>
+              <option>Unemployed</option>
+              <option>Student</option>
+              <option>Retired</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="signup-salary">Salary range</label>
+            <select id="signup-salary" name="salary" data-label="Salary range" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Under $25k</option>
+              <option>$25k&ndash;$50k</option>
+              <option>$50k&ndash;$75k</option>
+              <option>$75k&ndash;$100k</option>
+              <option>$100k&ndash;$150k</option>
+              <option>$150k+</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="signup-race">Race</label>
+            <select id="signup-race" name="race" data-label="Race" required>
+              <option value="" selected disabled>Select…</option>
+              <option>White</option>
+              <option>Black or African American</option>
+              <option>Asian</option>
+              <option>American Indian or Alaska Native</option>
+              <option>Native Hawaiian or Pacific Islander</option>
+              <option>Two or more races</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="signup-ethnicity">Ethnicity</label>
+            <select id="signup-ethnicity" name="ethnicity" data-label="Ethnicity" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Hispanic or Latino</option>
+              <option>Not Hispanic or Latino</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn btn-primary btn-block">Create account &amp; play</button>
+        </div>
+      </form>
+
+      <div class="success-state">
+        <div class="success-check">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <p class="success-message"></p>
+        <p class="auth-switch">Didn't open automatically? <a href="#" data-fallback-link>Continue to the game</a></p>
+      </div>
+
+      <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-row">
+      <a href="index.html" class="brand" aria-label="MR.Play home">
+        <img src="assets/icon.png" alt="" />
+        <span class="brand-text">MR.Play</span>
+      </a>
+      <p class="footer-meta">This is a prototype demo. Nothing you enter is stored. &copy; 2026 Erevna Games.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/validation.js"></script>
+</body>
+</html>

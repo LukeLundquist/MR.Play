@@ -1,0 +1,723 @@
+/* ==========================================================================
+   MR.Play prototype — shared stylesheet
+   Used by index.html, signup.html, login.html.
+   Visual language follows the live erevna-alpha.vercel.app site:
+   near-black background, cyan/violet/magenta gradient accents on headline
+   text, bordered near-black cards, pill-shaped buttons and nav.
+   ========================================================================== */
+
+/* ---- Reset ------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- Design tokens ------------------------------------------------------ */
+
+:root {
+  --bg: #0a0e14;
+  --bg-raised: #0f1420;
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  --text-primary: #f4f6fb;
+  --text-secondary: #9aa3b5;
+  --text-muted: #6b7280;
+
+  --cyan: #22d3ee;
+  --violet: #a78bfa;
+  --magenta: #e879f9;
+  --gradient-brand: linear-gradient(90deg, var(--cyan), var(--violet), var(--magenta));
+
+  --danger: #fb7185;
+
+  --radius-pill: 999px;
+  --radius-card: 20px;
+  --radius-input: 12px;
+
+  --font-brand: 'Bricolage Grotesque', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --container-width: 1120px;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4.5rem;
+}
+
+/* ---- Base --------------------------------------------------------------- */
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(34, 211, 238, 0.10), transparent 60%),
+    radial-gradient(ellipse 900px 600px at 90% 10%, rgba(232, 121, 249, 0.08), transparent 60%);
+  background-repeat: no-repeat;
+  color: var(--text-primary);
+  font-family: var(--font-brand);
+  font-weight: 400;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.gradient-text {
+  background-image: var(--gradient-brand);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--magenta); /* fallback if background-clip unsupported */
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.9rem;
+  background: rgba(34, 211, 238, 0.06);
+}
+
+/* ---- Site navigation ------------------------------------------------------ */
+
+.site-header {
+  padding: 1.25rem 0;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.brand img {
+  height: 30px;
+  width: auto;
+}
+
+.brand-text {
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-link {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-pill);
+  transition: color 0.15s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: var(--text-primary);
+}
+
+.nav-actions .btn {
+  padding: 0.55rem 1.3rem;
+  font-size: 0.9rem;
+}
+
+.nav-link.is-active {
+  color: var(--text-primary);
+}
+
+/* ---- Buttons -------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-brand);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--cyan);
+  color: #04121a;
+  box-shadow: 0 0 0 rgba(34, 211, 238, 0);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.35);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+/* Visibly non-functional: muted, "not-allowed" cursor, no hover lift —
+   these are cosmetic-only per spec, so they must not read as real buttons. */
+.btn-social {
+  background: var(--bg-raised);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+  font-weight: 600;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-social:hover,
+.btn-social:focus-visible {
+  border-color: var(--border-subtle);
+  opacity: 0.7;
+}
+
+.btn-social:active {
+  transform: none;
+}
+
+.btn[disabled] {
+  cursor: not-allowed;
+}
+
+/* ---- Hero ------------------------------------------------------------------ */
+
+.hero {
+  padding: var(--space-6) 0 var(--space-5);
+  text-align: center;
+}
+
+.hero .eyebrow {
+  margin-bottom: var(--space-3);
+}
+
+.hero h1 {
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  letter-spacing: -0.01em;
+  max-width: 18ch;
+  margin: 0 auto;
+}
+
+.hero p.lede {
+  margin: var(--space-3) auto 0;
+  max-width: 46ch;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.hero-actions {
+  margin-top: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ---- Feature / info cards --------------------------------------------------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: var(--space-5);
+}
+
+.card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.75rem;
+}
+
+.card .eyebrow {
+  margin-bottom: 0.9rem;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.card p {
+  font-size: 0.95rem;
+}
+
+/* ---- No-JS notice -------------------------------------------------------------- */
+
+.noscript-banner {
+  background: var(--bg);
+  color: var(--text-primary);
+  text-align: center;
+  padding: 1rem;
+  margin: 0;
+}
+
+/* ---- CTA card (landing page, bottom) ------------------------------------------- */
+
+.cta-card {
+  text-align: center;
+  padding: clamp(1.75rem, 4vw, 3rem);
+}
+
+.cta-card h2 {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+}
+
+.cta-card p {
+  margin-top: 0.75rem;
+  max-width: 40ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-card-actions {
+  margin-top: 1.75rem;
+}
+
+/* ---- Sections ---------------------------------------------------------------- */
+
+.section {
+  padding: var(--space-5) 0;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 40ch;
+  margin: 0 auto var(--space-2);
+}
+
+.section-heading p {
+  margin-top: 0.75rem;
+}
+
+/* ---- Footer -------------------------------------------------------------------- */
+
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: var(--space-4) 0;
+  margin-top: var(--space-5);
+}
+
+.footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-row .brand img {
+  height: 20px;
+  opacity: 0.85;
+}
+
+.footer-row .brand-text {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.footer-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ---- Auth pages (signup / login) ------------------------------------------------ */
+
+.auth-main {
+  padding: var(--space-4) 0 var(--space-6);
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+}
+
+.auth-card-narrow {
+  max-width: 460px;
+}
+
+.auth-card-header {
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.auth-card-header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+}
+
+.auth-card-header p {
+  margin-top: 0.5rem;
+}
+
+.form-section-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+.form-section-label:first-child {
+  margin-top: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1rem;
+}
+
+.form-grid .span-2 {
+  grid-column: 1 / -1;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.form-grid .form-field {
+  margin-bottom: 0;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-field input,
+.form-field select {
+  background: var(--bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-input);
+  padding: 0.7rem 0.9rem;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-field select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-secondary) 50%),
+    linear-gradient(135deg, var(--text-secondary) 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% - 3px), calc(100% - 15px) calc(50% - 3px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 2.25rem;
+}
+
+.form-field input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+}
+
+.form-field.has-error input,
+.form-field.has-error select {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.12);
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: var(--danger);
+  margin: 0;
+}
+
+.divider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: var(--space-3) 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.divider-row::before,
+.divider-row::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.social-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  /* padding, not margin: the cosmetic note below each button is
+     position:absolute, so it needs real reserved space that won't
+     collapse with the next section label's margin-top. */
+  padding-bottom: 2.25rem;
+}
+
+.social-button-wrap {
+  position: relative;
+}
+
+.social-note {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 0.4rem);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.social-note.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.form-submit {
+  margin-top: var(--space-4);
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: var(--space-3);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.auth-switch a {
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Simulated success state ------------------------------------------------------ */
+
+form.is-hidden {
+  display: none;
+}
+
+.success-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-5) var(--space-2);
+}
+
+.success-state.is-visible {
+  display: flex;
+}
+
+.success-check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+  animation: pop-in 0.35s ease;
+}
+
+.success-check svg {
+  width: 30px;
+  height: 30px;
+  stroke: var(--cyan);
+}
+
+.success-message {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  max-width: 32ch;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ---- Responsive ---------------------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1.1rem;
+  }
+
+  .site-nav {
+    flex-wrap: wrap;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    padding: 0.55rem 0.7rem;
+    font-size: 0.88rem;
+  }
+
+  .hero {
+    padding: var(--space-5) 0 var(--space-4);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .social-row {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-row {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .auth-card {
+    border-radius: 16px;
+  }
+}

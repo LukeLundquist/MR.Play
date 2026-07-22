@@ -1,0 +1,14 @@
+# OS cruft
+.DS_Store
+
+# Reference materials supplied for this project — not part of the deployable site
+Brand Guidelines_Erevna.pdf
+SureTell Home-v5-20150903_1747-v1.pdf
+ErevnaGames_Logos/
+ErevnaGames_WebSS/
+
+# BMAD planning/tooling — kept local, not published to the public repo
+_bmad/
+_bmad-output/
+.claude/
+docs/
