@@ -71,6 +71,8 @@ ul {
   --radius-card: 20px;
   --radius-input: 12px;
 
+  --brand-green: #90f406;
+
   --font-brand: 'Bricolage Grotesque', 'Segoe UI', system-ui, -apple-system, sans-serif;
 
   --container-width: 1120px;
@@ -145,6 +147,8 @@ p {
 
 .site-header {
   padding: 1.25rem 0;
+  background: rgba(15, 20, 32, 0.6);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .site-nav {
@@ -230,12 +234,12 @@ p {
 .btn-primary {
   background: var(--cyan);
   color: #04121a;
-  box-shadow: 0 0 0 rgba(34, 211, 238, 0);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.35), 0 0 2px rgba(34, 211, 238, 0.5);
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible {
-  box-shadow: 0 0 24px rgba(34, 211, 238, 0.35);
+  box-shadow: 0 0 26px rgba(34, 211, 238, 0.55), 0 0 4px rgba(34, 211, 238, 0.6);
 }
 
 .btn-secondary {
@@ -278,8 +282,10 @@ p {
 /* ---- Hero ------------------------------------------------------------------ */
 
 .hero {
+  position: relative;
   padding: var(--space-6) 0 var(--space-5);
   text-align: center;
+  overflow: hidden;
 }
 
 .hero .eyebrow {
@@ -373,7 +379,9 @@ p {
 /* ---- Sections ---------------------------------------------------------------- */
 
 .section {
+  position: relative;
   padding: var(--space-5) 0;
+  overflow: hidden;
 }
 
 .section-heading {
@@ -420,15 +428,18 @@ p {
 /* ---- Auth pages (signup / login) ------------------------------------------------ */
 
 .auth-main {
+  position: relative;
   padding: var(--space-4) 0 var(--space-6);
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 .auth-card {
   position: relative;
   width: 100%;
   max-width: 620px;
+  margin: 0 auto;
   background: var(--bg-raised);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-card);
@@ -664,6 +675,149 @@ form.is-hidden {
   }
 }
 
+/* ---- Background gamification decor ---------------------------------------------------
+   Purely decorative, aria-hidden, pointer-events:none throughout. Kept behind all real
+   content via a negative z-index within each section's own positioning context, so it
+   can never intercept clicks/selection or push layout width.
+   ========================================================================== */
+
+.bg-decor {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Pixel clusters — scattered, varied size/color/opacity, never a uniform grid. */
+
+.bg-pixel {
+  position: absolute;
+  border-radius: 2px;
+}
+
+.bg-pixel--xs { width: 4px; height: 4px; }
+.bg-pixel--s { width: 6px; height: 6px; }
+.bg-pixel--m { width: 9px; height: 9px; }
+.bg-pixel--l { width: 12px; height: 12px; border-radius: 3px; }
+
+.bg-pixel--cyan { background: var(--cyan); opacity: 0.14; }
+.bg-pixel--violet { background: var(--violet); opacity: 0.12; }
+.bg-pixel--magenta { background: var(--magenta); opacity: 0.11; }
+.bg-pixel--green { background: var(--brand-green); opacity: 0.09; }
+
+/* Floating game/insight symbols — a few per section, slow drift, low opacity. */
+
+.bg-symbol {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  opacity: 0.1;
+}
+
+.bg-symbol svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.bg-symbol--sm { width: 18px; height: 18px; }
+.bg-symbol--lg { width: 34px; height: 34px; }
+
+.bg-symbol--cyan { color: var(--cyan); }
+.bg-symbol--violet { color: var(--violet); }
+.bg-symbol--magenta { color: var(--magenta); }
+
+@keyframes bg-float-a {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(10px, -18px) rotate(6deg); }
+}
+
+@keyframes bg-float-b {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-12px, -14px) rotate(-5deg); }
+}
+
+@keyframes bg-float-c {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(8px, 16px) rotate(4deg); }
+}
+
+.bg-symbol--float-a { animation: bg-float-a 19s ease-in-out infinite; }
+.bg-symbol--float-b { animation: bg-float-b 23s ease-in-out infinite -6s; }
+.bg-symbol--float-c { animation: bg-float-c 27s ease-in-out infinite -11s; }
+
+/* Hero section instances */
+
+.bg-pixel--hero-1 { top: 20%; left: 7%; }
+.bg-pixel--hero-2 { top: 15%; left: 9%; }
+.bg-pixel--hero-3 { top: 68%; left: 12%; }
+.bg-pixel--hero-4 { top: 22%; right: 10%; }
+.bg-pixel--hero-5 { top: 30%; right: 6%; }
+.bg-pixel--hero-6 { top: 72%; right: 15%; }
+
+.bg-symbol--hero-1 { top: 24%; left: 5%; }
+.bg-symbol--hero-2 { top: 62%; right: 8%; }
+.bg-symbol--hero-3 { top: 12%; right: 18%; }
+
+/* How-it-works section instances */
+
+.bg-pixel--how-1 { top: 10%; left: 4%; }
+.bg-pixel--how-2 { top: 55%; left: 8%; }
+.bg-pixel--how-3 { top: 20%; right: 5%; }
+.bg-pixel--how-4 { top: 60%; right: 9%; }
+
+.bg-symbol--how-1 { top: 8%; right: 12%; }
+.bg-symbol--how-2 { bottom: 10%; left: 6%; }
+
+/* CTA section instances */
+
+.bg-pixel--cta-1 { top: 15%; left: 6%; }
+.bg-pixel--cta-2 { top: 70%; left: 10%; }
+.bg-pixel--cta-3 { top: 25%; right: 8%; }
+
+.bg-symbol--cta-1 { top: 18%; right: 10%; }
+.bg-symbol--cta-2 { bottom: 15%; left: 9%; }
+
+/* Auth pages (signup / login) — sparse, so the form stays the focus */
+
+.bg-pixel--auth-1 { top: 12%; left: 5%; }
+.bg-pixel--auth-2 { top: 75%; left: 8%; }
+.bg-pixel--auth-3 { top: 20%; right: 6%; }
+.bg-pixel--auth-4 { top: 68%; right: 7%; }
+
+.bg-symbol--auth-1 { top: 15%; right: 9%; }
+.bg-symbol--auth-2 { bottom: 12%; left: 6%; }
+
+/* Cursor trail (desktop, fine-pointer, no-reduced-motion only — gated in JS) */
+
+.cursor-trail-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  will-change: opacity, transform;
+}
+
+.cursor-trail-dot.is-fading {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-symbol {
+    animation: none !important;
+  }
+}
+
 /* ---- Responsive ---------------------------------------------------------------------- */
 
 @media (max-width: 860px) {
@@ -719,5 +873,11 @@ form.is-hidden {
 
   .auth-card {
     border-radius: 16px;
+  }
+
+  /* Keep small screens uncluttered — pixels stay (tiny, corner-anchored,
+     low opacity), but floating symbols compete too much with reflowed text. */
+  .bg-symbol {
+    display: none;
   }
 }
