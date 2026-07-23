@@ -94,15 +94,24 @@
   /* ---------------------------------------------------------------------
    * Validation rules
    *
-   * Each rule receives the form and returns either null (no error) or
-   * { input, message } for the first problem it finds.
+   * Each rule receives a container — either the whole form, or (for the
+   * signup wizard) a single .form-step div — and returns either null (no
+   * error) or { input, message } for the first problem it finds within
+   * that container. Scoping to a container is what lets each wizard step
+   * validate only its own fields, without the demographic fields on step
+   * 2 blocking step 1, or vice versa.
    * ------------------------------------------------------------------- */
 
-  function validateRequiredFields(form) {
-    var required = form.querySelectorAll('[required]');
+  function validateRequiredFields(container) {
+    var required = container.querySelectorAll('[required]');
     for (var i = 0; i < required.length; i++) {
       var input = required[i];
-      if (isBlank(input.value)) {
+      // Checkboxes: .value is just the string that would be SUBMITTED
+      // ("on" by default) regardless of checked state — it does not
+      // reflect whether the box is actually checked, so a required-but-
+      // unchecked checkbox needs its own check rather than isBlank().
+      var invalid = input.type === 'checkbox' ? !input.checked : isBlank(input.value);
+      if (invalid) {
         var label = input.dataset.label || 'This field';
         return { input: input, message: label + ' is required.' };
       }
@@ -110,17 +119,17 @@
     return null;
   }
 
-  function validateEmailField(form) {
-    var emailInput = form.querySelector('input[type="email"]');
+  function validateEmailField(container) {
+    var emailInput = container.querySelector('input[type="email"]');
     if (emailInput && !isBlank(emailInput.value) && !isValidEmail(emailInput.value)) {
       return { input: emailInput, message: 'Enter a valid email address (e.g. name@example.com).' };
     }
     return null;
   }
 
-  function validatePasswordMatch(form) {
-    var password = form.querySelector('[data-role="password"]');
-    var confirm = form.querySelector('[data-role="password-confirm"]');
+  function validatePasswordMatch(container) {
+    var password = container.querySelector('[data-role="password"]');
+    var confirm = container.querySelector('[data-role="password-confirm"]');
     if (password && confirm && password.value !== confirm.value) {
       return { input: confirm, message: 'Passwords do not match.' };
     }
@@ -128,14 +137,14 @@
   }
 
   /**
-   * Runs the given rules in order against a form, clearing previous errors
-   * first. Stops at (and reports) the FIRST problem found, per spec:
-   * "Block submit, focus first error."
+   * Runs the given rules in order against a container, clearing previous
+   * errors within it first. Stops at (and reports) the FIRST problem
+   * found, per spec: "Block submit, focus first error."
    */
-  function runValidation(form, rules) {
-    clearAllErrors(form);
+  function runValidation(container, rules) {
+    clearAllErrors(container);
     for (var i = 0; i < rules.length; i++) {
-      var problem = rules[i](form);
+      var problem = rules[i](container);
       if (problem) {
         showFieldError(problem.input, problem.message);
         problem.input.focus();
@@ -260,6 +269,21 @@
    * Page wiring
    * ------------------------------------------------------------------- */
 
+  /* ---------------------------------------------------------------------
+   * Sign-up wizard: 4 steps inside the one <form>, so nothing is ever
+   * destroyed/recreated when moving between them — field values persist
+   * automatically. Only this page has steps; login.html has none, so
+   * none of this runs there.
+   * ------------------------------------------------------------------- */
+
+  var SIGNUP_STEP_RULES = [validateRequiredFields, validateEmailField, validatePasswordMatch];
+  var SIGNUP_STEP_LABELS = {
+    1: 'Account',
+    2: 'Tell Us About You',
+    3: 'Shopping Habits',
+    4: 'Shopper Preferences'
+  };
+
   function initSignupForm() {
     var form = document.getElementById('signup-form');
     if (!form) {
@@ -268,13 +292,114 @@
     var card = form.closest('.auth-card');
     attachLiveClear(form);
 
+    var steps = Array.prototype.slice.call(form.querySelectorAll('.form-step'));
+    var progressSteps = Array.prototype.slice.call(form.querySelectorAll('.form-progress-step'));
+    var announceEl = document.getElementById('signup-step-announce');
+    var backBtn = document.getElementById('signup-back-btn');
+    var nextBtn = document.getElementById('signup-next-btn');
+    var submitBtn = document.getElementById('signup-submit-btn');
+    var totalSteps = steps.length;
+    var currentStep = 1;
+
+    function stepEl(n) {
+      return steps[n - 1];
+    }
+
+    function render() {
+      steps.forEach(function (el) {
+        el.hidden = parseInt(el.dataset.step, 10) !== currentStep;
+      });
+
+      progressSteps.forEach(function (el) {
+        var n = parseInt(el.dataset.progressStep, 10);
+        el.classList.toggle('is-current', n === currentStep);
+        el.classList.toggle('is-complete', n < currentStep);
+      });
+
+      backBtn.classList.toggle('is-invisible', currentStep === 1);
+
+      var isLastStep = currentStep === totalSteps;
+      nextBtn.hidden = isLastStep;
+      submitBtn.hidden = !isLastStep;
+
+      if (announceEl) {
+        announceEl.textContent = 'Step ' + currentStep + ' of ' + totalSteps + ': ' + SIGNUP_STEP_LABELS[currentStep];
+      }
+    }
+
+    function goToStep(n) {
+      currentStep = n;
+      render();
+    }
+
+    function goToNextStep() {
+      var valid = runValidation(stepEl(currentStep), SIGNUP_STEP_RULES);
+      if (!valid) {
+        return;
+      }
+      if (currentStep < totalSteps) {
+        goToStep(currentStep + 1);
+      }
+    }
+
+    function goToPrevStep() {
+      if (currentStep > 1) {
+        goToStep(currentStep - 1);
+      }
+    }
+
+    // Whole-form defense-in-depth check at final submit — steps 1/2's
+    // required fields are hidden by then (this form has novalidate, so
+    // native browser validation never runs; this JS is the only
+    // enforcement there is). If a failing field belongs to a step that
+    // isn't currently showing, .focus() on it would otherwise be a silent
+    // no-op (elements under a hidden ancestor aren't focusable) — so jump
+    // the wizard back to that step first, then show the error and focus.
+    function runFinalValidation() {
+      clearAllErrors(form);
+      for (var i = 0; i < SIGNUP_STEP_RULES.length; i++) {
+        var problem = SIGNUP_STEP_RULES[i](form);
+        if (problem) {
+          var failingStepEl = problem.input.closest('.form-step');
+          if (failingStepEl) {
+            var failingStep = parseInt(failingStepEl.dataset.step, 10);
+            if (failingStep !== currentStep) {
+              goToStep(failingStep);
+            }
+          }
+          showFieldError(problem.input, problem.message);
+          problem.input.focus();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    backBtn.addEventListener('click', goToPrevStep);
+    nextBtn.addEventListener('click', goToNextStep);
+
+    // Pressing Enter in a text field fires a click on the form's "default
+    // button" per the HTML spec — the first type="submit" button in tree
+    // order, regardless of whether it's currently visible. Since step 4's
+    // real submit button is the only submit-type button in the whole
+    // form, Enter on step 1/2/3 would otherwise silently trigger real
+    // submission instead of advancing. Intercept Enter globally and drive
+    // it off the wizard's own step state instead.
+    form.addEventListener('keydown', function (event) {
+      if (event.key !== 'Enter' || event.target.tagName === 'TEXTAREA') {
+        return;
+      }
+      event.preventDefault();
+      if (currentStep < totalSteps) {
+        goToNextStep();
+      } else {
+        form.requestSubmit();
+      }
+    });
+
     form.addEventListener('submit', function (event) {
       event.preventDefault();
-      var valid = runValidation(form, [
-        validateRequiredFields,
-        validateEmailField,
-        validatePasswordMatch
-      ]);
+      var valid = runFinalValidation();
       if (!valid) {
         return;
       }
@@ -289,6 +414,8 @@
       var message = 'Welcome, ' + displayName + '! You’re all set.';
       showSuccessState(card, message, resolveReturnTarget());
     });
+
+    render();
   }
 
   function initLoginForm() {

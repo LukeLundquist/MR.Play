@@ -77,142 +77,261 @@
 
       <form id="signup-form" novalidate>
 
-        <p class="form-section-label">Account</p>
-        <div class="form-grid">
-          <div class="form-field span-2">
-            <label for="signup-name">Full name</label>
-            <input type="text" id="signup-name" name="name" data-label="Full name" autocomplete="name" required />
+        <div class="form-progress" aria-hidden="true">
+          <div class="form-progress-step" data-progress-step="1">
+            <span class="form-progress-dot">1</span>
+            <span class="form-progress-label">Account</span>
           </div>
-          <div class="form-field span-2">
-            <label for="signup-email">Email</label>
-            <input type="email" id="signup-email" name="email" data-label="Email" autocomplete="email" required />
+          <div class="form-progress-step" data-progress-step="2">
+            <span class="form-progress-dot">2</span>
+            <span class="form-progress-label">About You</span>
           </div>
-          <div class="form-field">
-            <label for="signup-password">Password</label>
-            <input type="password" id="signup-password" name="password" data-role="password" data-label="Password" autocomplete="new-password" required />
+          <div class="form-progress-step" data-progress-step="3">
+            <span class="form-progress-dot">3</span>
+            <span class="form-progress-label">Shopping Habits</span>
           </div>
-          <div class="form-field">
-            <label for="signup-password-confirm">Confirm password</label>
-            <input type="password" id="signup-password-confirm" name="password_confirm" data-role="password-confirm" data-label="Confirm password" autocomplete="new-password" required />
+          <div class="form-progress-step" data-progress-step="4">
+            <span class="form-progress-dot">4</span>
+            <span class="form-progress-label">Preferences</span>
+          </div>
+        </div>
+        <p class="sr-only" aria-live="polite" id="signup-step-announce"></p>
+
+        <div class="form-step" data-step="1">
+          <p class="form-section-label">Account</p>
+          <div class="form-grid">
+            <div class="form-field span-2">
+              <label for="signup-name">Full name</label>
+              <input type="text" id="signup-name" name="name" data-label="Full name" autocomplete="name" required />
+            </div>
+            <div class="form-field span-2">
+              <label for="signup-email">Email</label>
+              <input type="email" id="signup-email" name="email" data-label="Email" autocomplete="email" required />
+            </div>
+            <div class="form-field">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" name="password" data-role="password" data-label="Password" autocomplete="new-password" required />
+            </div>
+            <div class="form-field">
+              <label for="signup-password-confirm">Confirm password</label>
+              <input type="password" id="signup-password-confirm" name="password_confirm" data-role="password-confirm" data-label="Confirm password" autocomplete="new-password" required />
+            </div>
+          </div>
+
+          <div class="divider-row">or continue with</div>
+          <div class="social-row">
+            <div class="social-button-wrap">
+              <button type="button" class="btn btn-social btn-block" data-social-button="Google">Continue with Google</button>
+              <span class="social-note" aria-live="polite"></span>
+            </div>
+            <div class="social-button-wrap">
+              <button type="button" class="btn btn-social btn-block" data-social-button="Facebook">Continue with Facebook</button>
+              <span class="social-note" aria-live="polite"></span>
+            </div>
           </div>
         </div>
 
-        <div class="divider-row">or continue with</div>
-        <div class="social-row">
-          <div class="social-button-wrap">
-            <button type="button" class="btn btn-social btn-block" data-social-button="Google">Continue with Google</button>
-            <span class="social-note" aria-live="polite"></span>
-          </div>
-          <div class="social-button-wrap">
-            <button type="button" class="btn btn-social btn-block" data-social-button="Facebook">Continue with Facebook</button>
-            <span class="social-note" aria-live="polite"></span>
-          </div>
-        </div>
-
-        <p class="form-section-label">Tell us about you</p>
-        <div class="form-grid">
-          <div class="form-field">
-            <label for="signup-age">Age</label>
-            <select id="signup-age" name="age" data-label="Age" required>
-              <option value="" selected disabled>Select…</option>
-              <option>18–24</option>
-              <option>25–34</option>
-              <option>35–44</option>
-              <option>45–54</option>
-              <option>55–64</option>
-              <option>65+</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label for="signup-gender">Gender</label>
-            <select id="signup-gender" name="gender" data-label="Gender" required>
-              <option value="" selected disabled>Select…</option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label for="signup-state">State</label>
-            <select id="signup-state" name="state" data-label="State" required>
-              <option value="" selected disabled>Select…</option>
-              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option>
-              <option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option>
-              <option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option>
-              <option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option>
-              <option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option>
-              <option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option>
-              <option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option>
-              <option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option>
-              <option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option>
-              <option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
-              <option>DC</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label for="signup-city">City</label>
-            <input type="text" id="signup-city" name="city" data-label="City" required />
-          </div>
-          <div class="form-field">
-            <label for="signup-education">Education</label>
-            <select id="signup-education" name="education" data-label="Education" required>
-              <option value="" selected disabled>Select…</option>
-              <option>Some high school</option>
-              <option>High school diploma</option>
-              <option>Some college</option>
-              <option>Bachelor's degree</option>
-              <option>Graduate degree</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label for="signup-employment">Employment</label>
-            <select id="signup-employment" name="employment" data-label="Employment" required>
-              <option value="" selected disabled>Select…</option>
-              <option>Employed full-time</option>
-              <option>Employed part-time</option>
-              <option>Self-employed</option>
-              <option>Unemployed</option>
-              <option>Student</option>
-              <option>Retired</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label for="signup-salary">Salary range</label>
-            <select id="signup-salary" name="salary" data-label="Salary range" required>
-              <option value="" selected disabled>Select…</option>
-              <option>Under $25k</option>
-              <option>$25k&ndash;$50k</option>
-              <option>$50k&ndash;$75k</option>
-              <option>$75k&ndash;$100k</option>
-              <option>$100k&ndash;$150k</option>
-              <option>$150k+</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label for="signup-race">Race</label>
-            <select id="signup-race" name="race" data-label="Race" required>
-              <option value="" selected disabled>Select…</option>
-              <option>White</option>
-              <option>Black or African American</option>
-              <option>Asian</option>
-              <option>American Indian or Alaska Native</option>
-              <option>Native Hawaiian or Pacific Islander</option>
-              <option>Two or more races</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label for="signup-ethnicity">Ethnicity</label>
-            <select id="signup-ethnicity" name="ethnicity" data-label="Ethnicity" required>
-              <option value="" selected disabled>Select…</option>
-              <option>Hispanic or Latino</option>
-              <option>Not Hispanic or Latino</option>
-            </select>
+        <div class="form-step" data-step="2" hidden>
+          <p class="form-section-label">Tell us about you</p>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="signup-age">Age</label>
+              <select id="signup-age" name="age" data-label="Age" required>
+                <option value="" selected disabled>Select…</option>
+                <option>18–24</option>
+                <option>25–34</option>
+                <option>35–44</option>
+                <option>45–54</option>
+                <option>55–64</option>
+                <option>65+</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="signup-gender">Gender</label>
+              <select id="signup-gender" name="gender" data-label="Gender" required>
+                <option value="" selected disabled>Select…</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="signup-state">State</label>
+              <select id="signup-state" name="state" data-label="State" required>
+                <option value="" selected disabled>Select…</option>
+                <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option>
+                <option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option>
+                <option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option>
+                <option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+                <option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option>
+                <option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option>
+                <option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option>
+                <option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+                <option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option>
+                <option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
+                <option>DC</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="signup-city">City</label>
+              <input type="text" id="signup-city" name="city" data-label="City" required />
+            </div>
+            <div class="form-field">
+              <label for="signup-education">Education</label>
+              <select id="signup-education" name="education" data-label="Education" required>
+                <option value="" selected disabled>Select…</option>
+                <option>Some high school</option>
+                <option>High school diploma</option>
+                <option>Some college</option>
+                <option>Bachelor's degree</option>
+                <option>Graduate degree</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="signup-employment">Employment</label>
+              <select id="signup-employment" name="employment" data-label="Employment" required>
+                <option value="" selected disabled>Select…</option>
+                <option>Employed full-time</option>
+                <option>Employed part-time</option>
+                <option>Self-employed</option>
+                <option>Unemployed</option>
+                <option>Student</option>
+                <option>Retired</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="signup-salary">Salary range</label>
+              <select id="signup-salary" name="salary" data-label="Salary range" required>
+                <option value="" selected disabled>Select…</option>
+                <option>Under $25k</option>
+                <option>$25k&ndash;$50k</option>
+                <option>$50k&ndash;$75k</option>
+                <option>$75k&ndash;$100k</option>
+                <option>$100k&ndash;$150k</option>
+                <option>$150k+</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="signup-race">Race</label>
+              <select id="signup-race" name="race" data-label="Race" required>
+                <option value="" selected disabled>Select…</option>
+                <option>White</option>
+                <option>Black or African American</option>
+                <option>Asian</option>
+                <option>American Indian or Alaska Native</option>
+                <option>Native Hawaiian or Pacific Islander</option>
+                <option>Two or more races</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="signup-ethnicity">Ethnicity</label>
+              <select id="signup-ethnicity" name="ethnicity" data-label="Ethnicity" required>
+                <option value="" selected disabled>Select…</option>
+                <option>Hispanic or Latino</option>
+                <option>Not Hispanic or Latino</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <div class="form-submit">
-          <button type="submit" class="btn btn-primary btn-block">Create account &amp; play</button>
+        <div class="form-step" data-step="3" hidden>
+          <p class="form-section-label">Shopping habits <span class="field-optional-tag">(Optional)</span></p>
+          <div class="form-grid">
+            <div class="form-field span-2">
+              <label>Stores you shop most</label>
+              <div class="chip-group">
+                <label class="chip"><input type="checkbox" name="stores" value="Walmart" />Walmart</label>
+                <label class="chip"><input type="checkbox" name="stores" value="Target" />Target</label>
+                <label class="chip"><input type="checkbox" name="stores" value="Kroger" />Kroger</label>
+                <label class="chip"><input type="checkbox" name="stores" value="H-E-B" />H-E-B</label>
+                <label class="chip"><input type="checkbox" name="stores" value="Costco" />Costco</label>
+                <label class="chip"><input type="checkbox" name="stores" value="Whole Foods" />Whole Foods</label>
+                <label class="chip"><input type="checkbox" name="stores" value="Sprouts" />Sprouts</label>
+                <label class="chip"><input type="checkbox" name="stores" value="CVS" />CVS</label>
+              </div>
+            </div>
+            <div class="form-field span-2">
+              <label for="signup-shopping-frequency">Shopping frequency</label>
+              <select id="signup-shopping-frequency" name="shopping_frequency" data-label="Shopping frequency">
+                <option value="" selected disabled>Select…</option>
+                <option>2–3 times a week</option>
+                <option>Weekly</option>
+                <option>2–3 times a month</option>
+              </select>
+            </div>
+            <div class="form-field span-2">
+              <label>Categories you buy regularly</label>
+              <div class="chip-group">
+                <label class="chip"><input type="checkbox" name="categories" value="Snacks" />Snacks</label>
+                <label class="chip"><input type="checkbox" name="categories" value="Beverages" />Beverages</label>
+                <label class="chip"><input type="checkbox" name="categories" value="Dairy" />Dairy</label>
+                <label class="chip"><input type="checkbox" name="categories" value="Meat" />Meat</label>
+                <label class="chip"><input type="checkbox" name="categories" value="Frozen Foods" />Frozen Foods</label>
+                <label class="chip"><input type="checkbox" name="categories" value="Cleaning Products" />Cleaning Products</label>
+                <label class="chip"><input type="checkbox" name="categories" value="Personal Care" />Personal Care</label>
+                <label class="chip"><input type="checkbox" name="categories" value="Health Products" />Health Products</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-step" data-step="4" hidden>
+          <p class="form-section-label">Shopper preferences <span class="field-optional-tag">(Optional)</span></p>
+          <div class="form-grid">
+            <div class="form-field span-2">
+              <label for="signup-aisle-behavior">When choosing products in the aisle, you typically:</label>
+              <select id="signup-aisle-behavior" name="aisle_behavior" data-label="Aisle behavior">
+                <option value="" selected disabled>Select…</option>
+                <option>Compare two or three options</option>
+                <option>Grab my usual brand</option>
+                <option>Browse and discover</option>
+                <option>Follow my shopping list</option>
+              </select>
+            </div>
+            <div class="form-field span-2">
+              <label for="signup-influence">What influences you most?</label>
+              <select id="signup-influence" name="influence" data-label="Influence">
+                <option value="" selected disabled>Select…</option>
+                <option>Price</option>
+                <option>Brand trust</option>
+                <option>Ingredients</option>
+                <option>Packaging</option>
+                <option>Promotions</option>
+                <option>Shelf placement</option>
+              </select>
+            </div>
+            <div class="form-field span-2">
+              <label for="signup-reward">Preferred reward</label>
+              <select id="signup-reward" name="reward" data-label="Preferred reward">
+                <option value="" selected disabled>Select…</option>
+                <option>Store coupons</option>
+                <option>Gift cards</option>
+                <option>Cash back</option>
+                <option>Loyalty points</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="form-section-label">Consent</p>
+          <div class="form-field">
+            <label class="checkbox-row">
+              <input type="checkbox" id="signup-consent" name="consent" data-label="Research consent" required />
+              <span>I give informed consent to take part in gamified shopping research and to the use of my anonymized gameplay data as described above.</span>
+            </label>
+          </div>
+          <div class="form-field">
+            <label class="checkbox-row">
+              <input type="checkbox" id="signup-notify" name="notify" />
+              <span>Notify me when new games are available near me.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn btn-secondary is-invisible" id="signup-back-btn">Back</button>
+          <button type="button" class="btn btn-primary" id="signup-next-btn">Next</button>
+          <button type="submit" class="btn btn-primary" id="signup-submit-btn" hidden>Create account &amp; play</button>
         </div>
       </form>
 

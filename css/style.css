@@ -48,6 +48,20 @@ ul {
   list-style: none;
 }
 
+/* Visually hidden but still present for screen readers/keyboard focus —
+   e.g. the sign-up wizard's aria-live step announcement. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---- Design tokens ------------------------------------------------------ */
 
 :root {
@@ -312,6 +326,14 @@ p {
 
 .btn:active {
   transform: translateY(1px);
+}
+
+/* .btn sets its own `display`, which otherwise beats the UA [hidden]
+   rule regardless of source order (author styles always win over UA
+   styles at equal specificity) — same fix already applied to
+   .nav-auth-links[hidden]/.nav-user-pill[hidden] below. */
+.btn[hidden] {
+  display: none;
 }
 
 .btn-block {
@@ -1240,6 +1262,196 @@ body.page-games .card {
 
 .form-submit {
   margin-top: var(--space-4);
+}
+
+/* ---- Sign-up wizard: progress bar, steps, chips, nav row --------------------------- */
+
+/* .form-step intentionally declares no `display` of its own — see the
+   .btn[hidden] comment above for why that matters: an author `display`
+   rule on the same element beats the UA [hidden] rule regardless of
+   source order, which would silently break the show/hide toggle. */
+
+.form-progress {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: var(--space-4);
+}
+
+.form-progress-step {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.form-progress-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--border-subtle);
+  z-index: 0;
+}
+
+.form-progress-dot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.form-progress-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.form-progress-step.is-current .form-progress-dot {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #04121a;
+}
+
+.form-progress-step.is-current .form-progress-label {
+  color: var(--text-primary);
+}
+
+.form-progress-step.is-complete .form-progress-dot {
+  background: rgba(34, 211, 238, 0.15);
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.form-progress-step.is-complete::after {
+  background: var(--cyan);
+}
+
+.field-optional-tag {
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+/* Multi-select "chip" groups (Stores You Shop Most / Categories You Buy
+   Regularly) — real checkboxes for accessible, native multi-value form
+   semantics, just styled as toggle pills rather than a native
+   <select multiple> (poor mobile UX). */
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.chip:hover {
+  border-color: var(--border-strong);
+}
+
+/* Visually hidden but still real/focusable/keyboard-operable — the chip
+   label itself carries the visible state via :has(). More specific than
+   .form-field input[type="checkbox"] below, so it wins regardless of
+   source order. */
+.chip input[type="checkbox"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.chip:has(input:checked) {
+  border-color: var(--cyan);
+  background: rgba(34, 211, 238, 0.1);
+  color: var(--text-primary);
+}
+
+.chip:has(input:focus-visible) {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* Single checkboxes (consent / notify) — the .form-field input rule
+   above targets text/select fields; checkboxes need their own reset so
+   they don't get stretched to a full-width padded box. */
+.form-field input[type="checkbox"] {
+  width: auto;
+  padding: 0;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.checkbox-row input[type="checkbox"] {
+  margin-top: 0.2rem;
+  flex: none;
+}
+
+.form-nav {
+  margin-top: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Back stays in the DOM and keeps its layout space on step 1 (rather
+   than using [hidden], which would remove it from the flex row and pull
+   Next/Submit away from the right edge) — just made non-interactive and
+   invisible. */
+.form-nav .btn.is-invisible {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .auth-switch {
@@ -2241,6 +2453,24 @@ form.is-hidden {
 
   .auth-card {
     border-radius: 16px;
+  }
+
+  .form-progress-label {
+    font-size: 0.6rem;
+  }
+
+  .form-progress-dot {
+    width: 24px;
+    height: 24px;
+    font-size: 0.72rem;
+  }
+
+  .form-progress-step:not(:last-child)::after {
+    top: 11px;
+  }
+
+  .form-nav .btn {
+    flex: 1;
   }
 
   /* Keep small screens uncluttered — pixels stay (tiny, corner-anchored,
