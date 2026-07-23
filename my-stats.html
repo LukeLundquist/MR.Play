@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>My Results — MR.Play</title>
+<title>My Stats — MR.Play</title>
 <meta name="description" content="View your own MR.Play gameplay stats, history, leaderboards, and achievements — separate from any research data collected during play." />
 
 <link rel="icon" href="assets/favicon.png" type="image/png" />
@@ -19,10 +19,10 @@
   // Gate this page behind signup/login, before any dashboard content
   // paints. Reuses the same session marker and ?from= return-to-page
   // mechanic as games.html/validation.js — see js/session.js and
-  // js/results.js for the rest of this page's auth handling.
+  // js/my-stats.js for the rest of this page's auth handling.
   (function () {
     if (!window.MRPlaySession || !window.MRPlaySession.get()) {
-      window.location.replace('login.html?from=results.html');
+      window.location.replace('login.html?from=my-stats.html');
     }
   })();
 </script>
@@ -42,11 +42,11 @@
       </a>
       <div class="nav-actions">
         <a href="games.html" class="nav-link">Games</a>
-        <a href="results.html" class="nav-link is-active" aria-current="page">My Results</a>
+        <a href="my-stats.html" class="nav-link is-active" aria-current="page">My Stats</a>
         <a href="client-login.html" class="nav-link">Clients</a>
         <span class="nav-auth-links">
-          <a href="login.html?from=results.html" class="nav-link">Log In</a>
-          <a href="signup.html?from=results.html" class="btn btn-primary">Sign Up</a>
+          <a href="login.html?from=my-stats.html" class="nav-link">Log In</a>
+          <a href="signup.html?from=my-stats.html" class="btn btn-primary">Sign Up</a>
         </span>
         <button type="button" class="nav-user-pill" id="nav-user-pill" hidden title="Click to log out (demo)">
           <span class="nav-user-avatar" id="nav-user-avatar"></span>
@@ -72,7 +72,7 @@
     </div>
     <div class="container">
       <span class="eyebrow">Your Player Dashboard</span>
-      <h1>My <span class="gradient-text">Results</span></h1>
+      <h1>My <span class="gradient-text">Stats</span></h1>
       <p class="lede">
         A look at your own gameplay activity — stats, history, leaderboards,
         and achievements. This reflects how you've played, not the research
@@ -322,7 +322,7 @@
         <ul class="footer-links">
           <li><a href="index.html">Home</a></li>
           <li><a href="games.html">Games</a></li>
-          <li><a href="results.html">My Results</a></li>
+          <li><a href="my-stats.html">My Stats</a></li>
           <li><a href="signup.html">Sign Up</a></li>
           <li><a href="login.html">Log In</a></li>
           <li><a href="client-login.html">Clients</a></li>
@@ -343,8 +343,8 @@
 <script src="js/config.js"></script>
 <script src="js/games-data.js"></script>
 <script src="js/nav-auth.js"></script>
-<script src="js/results-data.js"></script>
-<script src="js/results.js"></script>
+<script src="js/my-stats-data.js"></script>
+<script src="js/my-stats.js"></script>
 <script src="js/effects.js"></script>
 </body>
 </html>

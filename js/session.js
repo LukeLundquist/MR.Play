@@ -58,7 +58,7 @@ var MRPlaySession = (function () {
     }
   }
 
-  // Shared with nav-auth.js (header pill) and results.js (Player
+  // Shared with nav-auth.js (header pill) and my-stats.js (Player
   // Overview avatar) so both render the exact same initials for a given
   // display name.
   function initials(name) {

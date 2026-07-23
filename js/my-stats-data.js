@@ -1,9 +1,9 @@
 /**
- * MR.Play — dummy data for the "My Results" player dashboard.
+ * MR.Play — dummy data for the "My Stats" player dashboard.
  *
  * There is no backend, so every value here is a shared, static demo
  * dataset — the same for every visitor — EXCEPT the player's own display
- * name/avatar, which results.js pulls live from MRPlaySession (js/session.js)
+ * name/avatar, which my-stats.js pulls live from MRPlaySession (js/session.js)
  * instead of from anything in this file.
  *
  * This is explicitly NOT the research data collected during gameplay —
@@ -14,7 +14,7 @@
  * Loaded as a plain global (not an ES module) via <script src>, same as
  * games-data.js, so the site keeps working opened directly from disk
  * (file://). `gameId` fields below cross-reference MRPLAY_GAMES
- * (js/games-data.js) at render time in results.js, rather than repeating
+ * (js/games-data.js) at render time in my-stats.js, rather than repeating
  * game titles/thumbnails/urls here.
  */
 
@@ -63,7 +63,7 @@ var MRPLAY_LEADERBOARDS = {
     { rank: 4, name: 'DriftCipher', score: 11700 },
     { rank: 5, name: 'EchoRanger', score: 11455 }
   ],
-  // "You" is inserted at render time by results.js using the real
+  // "You" is inserted at render time by my-stats.js using the real
   // session display name + this player's best score (9,980), not a
   // hardcoded name here.
   friends: [

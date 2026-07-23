@@ -1,13 +1,13 @@
 /**
- * MR.Play — results.html page controller.
+ * MR.Play — my-stats.html page controller.
  *
- * Renders the "My Results" player dashboard from the dummy dataset in
- * js/results-data.js, cross-referencing MRPLAY_GAMES (js/games-data.js)
+ * Renders the "My Stats" player dashboard from the dummy dataset in
+ * js/my-stats-data.js, cross-referencing MRPLAY_GAMES (js/games-data.js)
  * wherever a row needs a real game's title/thumbnail/url. The player's
  * own name/avatar come from MRPlaySession (js/session.js) — nothing in
- * results-data.js is personalized.
+ * my-stats-data.js is personalized.
  *
- * Gating: results.html's <head> already redirects a signed-out visitor to
+ * Gating: my-stats.html's <head> already redirects a signed-out visitor to
  * login.html before this file ever runs (see the inline script there), so
  * by the time DOMContentLoaded fires here, a session is assumed to exist.
  * The one thing that script CAN'T catch is a visitor logging out via the
@@ -251,11 +251,11 @@
     // nav-auth.js's own listener (registered first, in its own
     // DOMContentLoaded handler) already clears the session and re-renders
     // the header. This just adds the page-specific consequence: unlike
-    // every other page, results.html has nothing sensible to show once
+    // every other page, my-stats.html has nothing sensible to show once
     // signed out, so it sends the visitor on to login rather than leaving
     // a stale dashboard on screen.
     pill.addEventListener('click', function () {
-      window.location.replace('login.html?from=results.html');
+      window.location.replace('login.html?from=my-stats.html');
     });
   }
 
