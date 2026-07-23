@@ -51,8 +51,8 @@ ul {
 /* ---- Design tokens ------------------------------------------------------ */
 
 :root {
-  --bg: #0a0e14;
-  --bg-raised: #0f1420;
+  --bg: #05060a;
+  --bg-raised: #0a0d16;
   --border-subtle: rgba(255, 255, 255, 0.09);
   --border-strong: rgba(255, 255, 255, 0.18);
 
@@ -75,7 +75,7 @@ ul {
 
   --font-brand: 'Bricolage Grotesque', 'Segoe UI', system-ui, -apple-system, sans-serif;
 
-  --container-width: 1120px;
+  --container-width: 1280px;
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
@@ -89,8 +89,8 @@ ul {
 body {
   background: var(--bg);
   background-image:
-    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(34, 211, 238, 0.10), transparent 60%),
-    radial-gradient(ellipse 900px 600px at 90% 10%, rgba(232, 121, 249, 0.08), transparent 60%);
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(34, 211, 238, 0.07), transparent 60%),
+    radial-gradient(ellipse 900px 600px at 90% 10%, rgba(232, 121, 249, 0.05), transparent 60%);
   background-repeat: no-repeat;
   color: var(--text-primary);
   font-family: var(--font-brand);
@@ -143,11 +143,26 @@ p {
   background: rgba(34, 211, 238, 0.06);
 }
 
+/* Secondary-label variant — softer/neutral instead of cyan, for labels
+   that should support a heading rather than compete with it. Cyan stays
+   reserved for primary emphasis (hero eyebrow, Sign Up button, status
+   pills). */
+.eyebrow--muted {
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+}
+
 /* ---- Site navigation ------------------------------------------------------ */
 
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   padding: 1.25rem 0;
-  background: rgba(15, 20, 32, 0.6);
+  background: rgba(10, 13, 22, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -167,6 +182,16 @@ p {
 .brand img {
   height: 30px;
   width: auto;
+}
+
+/* Header only: the wordmark reads a touch small next to the new logo
+   mark, and its glyph ink (cap-height, no descenders) sits higher within
+   its line-box than the icon's ink fills its own box, so box-centering
+   alone isn't quite enough for optical alignment. */
+.site-header .brand-text {
+  font-size: 1.3rem;
+  position: relative;
+  top: 1px;
 }
 
 .brand-text {
@@ -201,6 +226,68 @@ p {
   font-size: 0.9rem;
 }
 
+/* ---- Header logged-in state ------------------------------------------------ */
+
+.nav-auth-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-auth-links[hidden] {
+  display: none;
+}
+
+.nav-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 1rem 0.35rem 0.35rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.nav-user-pill[hidden] {
+  display: none;
+}
+
+.nav-user-pill:hover,
+.nav-user-pill:focus-visible {
+  border-color: var(--border-strong);
+}
+
+.nav-user-avatar {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #04121a;
+}
+
+.nav-user-avatar--cyan { background: var(--cyan); }
+.nav-user-avatar--violet { background: var(--violet); }
+.nav-user-avatar--magenta { background: var(--magenta); }
+.nav-user-avatar--green { background: var(--brand-green); }
+
+.nav-user-name {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .nav-link.is-active {
   color: var(--text-primary);
 }
@@ -229,6 +316,11 @@ p {
 
 .btn-block {
   width: 100%;
+}
+
+.btn-small {
+  padding: 0.45rem 1rem;
+  font-size: 0.82rem;
 }
 
 .btn-primary {
@@ -277,6 +369,14 @@ p {
 
 .btn[disabled] {
   cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+.btn[disabled]:hover,
+.btn[disabled]:focus-visible {
+  box-shadow: none;
+  transform: none;
 }
 
 /* ---- Hero ------------------------------------------------------------------ */
@@ -288,12 +388,69 @@ p {
   overflow: hidden;
 }
 
+/* Games page only: closes some of the large gap between the hero and the
+   game grid immediately below it. */
+body.page-games .hero {
+  padding-bottom: var(--space-4);
+}
+
+/* Games page only: floating real game-thumbnail tiles near the hero's
+   edges, giving it actual game-related visual interest instead of only
+   faint abstract pixels/symbols. Same convention as .bg-decor (aria-hidden,
+   non-interactive, z-index:-1, clipped by .hero's own overflow:hidden).
+   Only shown on genuinely wide viewports — below ~1500px there's no real
+   side margin outside the 1280px container for a tile to occupy without
+   risking the (still fairly wide) hero copy. */
+.hero-tiles {
+  display: none;
+}
+
+@media (min-width: 1500px) {
+  .hero-tiles {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero-tile {
+    position: absolute;
+    width: 150px;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    opacity: 0.85;
+  }
+
+  .hero-tile-1 {
+    top: 16%;
+    left: 6%;
+    transform: rotate(-8deg);
+  }
+
+  .hero-tile-2 {
+    top: 62%;
+    left: 10%;
+    width: 120px;
+    transform: rotate(6deg);
+  }
+
+  .hero-tile-3 {
+    top: 20%;
+    right: 6%;
+    transform: rotate(9deg);
+  }
+}
+
 .hero .eyebrow {
   margin-bottom: var(--space-3);
 }
 
 .hero h1 {
-  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  font-size: clamp(2.1rem, 4.5vw, 4rem);
   letter-spacing: -0.01em;
   max-width: 18ch;
   margin: 0 auto;
@@ -301,9 +458,24 @@ p {
 
 .hero p.lede {
   margin: var(--space-3) auto 0;
-  max-width: 46ch;
+  max-width: 58ch;
   font-size: 1.1rem;
   color: var(--text-secondary);
+}
+
+.hero p.hero-subline {
+  margin-top: var(--space-2);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+/* Games-page-only: sits after the merged intro paragraph, standing in as
+   the divider between that copy and the game grid below, so it needs more
+   presence than the standard hero-subline treatment used elsewhere. */
+.hero p.hero-subline.hero-subline--divider {
+  margin-top: var(--space-5);
+  font-size: 1.35rem;
 }
 
 .hero-actions {
@@ -344,6 +516,47 @@ p {
   font-size: 0.95rem;
 }
 
+/* Games page only: step-number/icon treatment for "How It Works" cards.
+   .card has no position set elsewhere on the site, so it's scoped here
+   rather than added to the base rule — index.html's identical .card stays
+   untouched. */
+body.page-games .card {
+  position: relative;
+}
+
+.card-step-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.card-step-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
+  opacity: 0.15;
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: var(--cyan);
+  flex: none;
+}
+
+.card-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* ---- No-JS notice -------------------------------------------------------------- */
 
 .noscript-banner {
@@ -362,7 +575,7 @@ p {
 }
 
 .cta-card h2 {
-  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-size: clamp(1.4rem, 3.2vw, 2.4rem);
 }
 
 .cta-card p {
@@ -386,12 +599,385 @@ p {
 
 .section-heading {
   text-align: center;
-  max-width: 40ch;
+  max-width: 56ch;
   margin: 0 auto var(--space-2);
+}
+
+.section-heading h2 {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  margin-bottom: 0.5rem;
 }
 
 .section-heading p {
   margin-top: 0.75rem;
+}
+
+/* ---- Prose layout (label-left / content-right on desktop) --------------------------- */
+/* Wraps a .section-heading + .prose-section pair. Stacked and centered on
+   mobile (identical to before); on wide screens the heading becomes a
+   sticky left-hand label and the text sits in a wide right-hand column —
+   an asymmetric, desktop-native composition instead of the same centered
+   single column at every width. */
+
+.prose-layout {
+  display: block;
+}
+
+@media (min-width: 900px) {
+  .prose-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .prose-layout .section-heading {
+    text-align: left;
+    max-width: none;
+    margin: 0;
+    position: sticky;
+    top: 110px;
+  }
+
+  .prose-layout .prose-section {
+    text-align: left;
+    max-width: none;
+    margin: 0;
+  }
+
+  /* Mirrors which side the label sits on — used to alternate the four
+     prose "chapters" down the page instead of every one looking
+     identical. DOM order is untouched (heading still first for a11y/tab
+     order); only the visual column position swaps. Pinning grid-column
+     explicitly, rather than swapping `order` on the two children while
+     leaving grid-template-columns as-is, matters here: grid auto-placement
+     follows order-modified document order, so an order-only swap would
+     squeeze the wide prose block into the 300px track instead of moving
+     it — this pins each child to its intended track regardless of order. */
+  .prose-layout--reverse {
+    grid-template-columns: 1fr 300px;
+  }
+
+  .prose-layout--reverse .section-heading {
+    grid-column: 2;
+  }
+
+  .prose-layout--reverse .prose-section {
+    grid-column: 1;
+  }
+
+  /* Tighter label-to-card gap — used where the label column now holds a
+     short supporting statement rather than just a bare eyebrow pill, so
+     the two columns should read as directly connected rather than
+     separated by the standard 3rem chapter gap. Compounded with
+     .prose-layout itself so it reliably beats the base gap rule instead
+     of tying with it in specificity. */
+  .prose-layout.prose-layout--tight {
+    gap: 1.5rem;
+  }
+
+  /* Hero copy was capped at mobile-friendly widths (18ch/58ch) even on
+     wide screens, so it read as a narrow centered column inside the full
+     1280px container. Widen it here only — mobile keeps its original
+     narrower caps. */
+  .hero h1 {
+    max-width: 26ch;
+  }
+
+  .hero p.lede {
+    max-width: 78ch;
+  }
+
+  /* Same fix for the shared centered heading+intro block used by every
+     non-prose-layout section (Choices-Reveal, Game Library Preview,
+     Explore Our Games, How It Works, etc.) — 56ch read narrow once the
+     container itself grew to 1280px. .prose-layout .section-heading
+     already overrides this to max-width:none, so the four zigzag
+     "chapter" sections are unaffected. */
+  .section-heading {
+    max-width: 74ch;
+  }
+
+  /* More breathing room once there's actual width to spend it in —
+     the mobile spacing scale stays untouched below this width. */
+  .section {
+    padding: 5.5rem 0;
+  }
+
+  /* Games page only: the shared 5.5rem desktop section padding read as
+     too much empty space stacked between the hero, research section, and
+     How It Works. Scoped via body.page-games so index.html/signup.html/
+     login.html keep the padding above untouched. */
+  body.page-games .section {
+    padding: 3.75rem 0;
+  }
+
+  .value-grid,
+  .insight-flow {
+    gap: 1.75rem;
+  }
+
+  .card-grid {
+    gap: 1.75rem;
+  }
+
+  .game-grid {
+    gap: 2rem;
+  }
+}
+
+/* ---- Prose sections (centered multi-paragraph copy blocks) ------------------------- */
+
+.prose-section {
+  /* px, not ch: box-sizing:border-box means padding eats into a ch-based
+     max-width, so the net text column barely widens even though the box
+     grows. A fixed px width keeps the actual reading measure predictable
+     (~72-78ch net of padding at this font-size) instead. */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  text-align: center;
+}
+
+.prose-section p {
+  margin-top: 1rem;
+}
+
+.prose-section p:first-of-type {
+  margin-top: var(--space-2);
+}
+
+.prose-section .prose-emphasis {
+  font-style: italic;
+  font-size: 1.15em;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 1.5rem;
+}
+
+/* Pull-quote treatment — applied by hand to exactly two paragraphs
+   sitewide (Your Play Has a Purpose's opener, Trust's closing emphasis
+   line via .prose-emphasis above), not every prose section uniformly.
+   Only short, standalone, declarative sentences read as an intentional
+   quote at this size — forcing it onto longer/hedging openers elsewhere
+   would just look like an oversized paragraph. */
+.prose-section .prose-standout {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.prose-section--spaced {
+  margin-top: var(--space-4);
+}
+
+.library-preview-action {
+  text-align: center;
+}
+
+/* ---- Value grid (4-up short statements) --------------------------------------------- */
+
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: var(--space-5);
+}
+
+.value-item {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+}
+
+.value-item h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+
+.value-item p {
+  font-size: 0.92rem;
+}
+
+/* Stat-strip variant — used once, directly under the hero, so the page's
+   very first grid reads as a "trust bar" rather than another set of boxed
+   cards. Scoped to .value-grid--bar specifically so the other section
+   reusing .value-grid/.value-item (What Your Choices Can Help Reveal)
+   keeps its own boxed/badged treatment untouched. */
+.value-grid--bar {
+  margin-top: var(--space-4);
+}
+
+.value-grid--bar .value-item {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0 0 0 1.5rem;
+}
+
+.value-grid--bar .value-item:first-child {
+  padding-left: 0;
+}
+
+@media (min-width: 640px) {
+  .value-grid--bar .value-item {
+    border-left: 1px solid var(--border-subtle);
+  }
+
+  .value-grid--bar .value-item:first-child {
+    border-left: none;
+  }
+}
+
+/* Numbered-badge variant — used once, on "What Your Choices Can Help
+   Reveal." Reuses the .insight-step-number circular-badge pattern but in
+   violet rather than cyan, so this doesn't end up looking identical to
+   Play-to-Insight's badges one section later. */
+.value-item-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.14);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  color: var(--violet);
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+/* ---- Featured game (image + copy, side by side) -------------------------------------- */
+
+.featured-game {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  align-items: stretch;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.featured-game-media {
+  display: flex;
+  align-items: center;
+}
+
+.featured-game-media img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.featured-game-body {
+  padding: var(--space-4) var(--space-4) var(--space-4) 0;
+}
+
+.featured-game-body h2 {
+  font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.featured-game-body p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.featured-game-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ---- Play-to-insight flow (numbered 4-step) ------------------------------------------- */
+
+.insight-flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: var(--space-5);
+}
+
+.insight-step {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+}
+
+.insight-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  color: var(--cyan);
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.insight-step h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.insight-step p {
+  font-size: 0.88rem;
+}
+
+/* Chevron connectors — used in How It Works (.card-grid--flow) and
+   Play-to-Insight (.insight-flow--flow) so those grids read as an ordered
+   process rather than N unrelated cards. Gated to the same min-width:900px
+   breakpoint as .prose-layout's desktop treatment: below it, chevrons stay
+   hidden and the grid falls back entirely to the existing 3/4 → 2 → 1
+   column collapse untouched, so there's no in-between state where a
+   horizontal arrow would end up stranded between vertically stacked
+   cards. */
+.grid-chevron {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--border-subtle);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+@media (min-width: 900px) {
+  .card-grid--flow {
+    grid-template-columns: 1fr 32px 1fr 32px 1fr;
+  }
+
+  .insight-flow--flow {
+    grid-template-columns: 1fr 32px 1fr 32px 1fr 32px 1fr;
+  }
+
+  .card-grid--flow .grid-chevron,
+  .insight-flow--flow .grid-chevron {
+    display: flex;
+  }
+}
+
+/* ---- Game library preview status pills ------------------------------------------------ */
+
+.library-status-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: var(--space-3) 0 var(--space-4);
 }
 
 /* ---- Footer -------------------------------------------------------------------- */
@@ -402,27 +988,79 @@ p {
   margin-top: var(--space-5);
 }
 
-.footer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+.footer-columns {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.footer-row .brand img {
-  height: 20px;
-  opacity: 0.85;
+.footer-brand .brand img {
+  height: 22px;
+  opacity: 0.9;
 }
 
-.footer-row .brand-text {
-  font-size: 1rem;
-  opacity: 0.85;
+.footer-tagline {
+  margin-top: 0.75rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--cyan);
 }
 
-.footer-meta {
+.footer-desc {
+  margin-top: 0.5rem;
+  max-width: 32ch;
   font-size: 0.85rem;
   color: var(--text-muted);
+}
+
+.footer-col-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-links a {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--text-primary);
+}
+
+.footer-company-line {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  max-width: 28ch;
+}
+
+.footer-bottom {
+  padding-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-notice,
+.footer-copyright {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.footer-notice {
+  max-width: 60ch;
 }
 
 /* ---- Auth pages (signup / login) ------------------------------------------------ */
@@ -701,10 +1339,10 @@ form.is-hidden {
 .bg-pixel--m { width: 9px; height: 9px; }
 .bg-pixel--l { width: 12px; height: 12px; border-radius: 3px; }
 
-.bg-pixel--cyan { background: var(--cyan); opacity: 0.14; }
-.bg-pixel--violet { background: var(--violet); opacity: 0.12; }
-.bg-pixel--magenta { background: var(--magenta); opacity: 0.11; }
-.bg-pixel--green { background: var(--brand-green); opacity: 0.09; }
+.bg-pixel--cyan { background: var(--cyan); opacity: 0.32; box-shadow: 0 0 8px rgba(34, 211, 238, 0.35); }
+.bg-pixel--violet { background: var(--violet); opacity: 0.28; box-shadow: 0 0 8px rgba(167, 139, 250, 0.3); }
+.bg-pixel--magenta { background: var(--magenta); opacity: 0.26; box-shadow: 0 0 8px rgba(232, 121, 249, 0.3); }
+.bg-pixel--green { background: var(--brand-green); opacity: 0.22; box-shadow: 0 0 8px rgba(144, 244, 6, 0.25); }
 
 /* Floating game/insight symbols — a few per section, slow drift, low opacity. */
 
@@ -712,7 +1350,8 @@ form.is-hidden {
   position: absolute;
   width: 26px;
   height: 26px;
-  opacity: 0.1;
+  opacity: 0.22;
+  filter: drop-shadow(0 0 6px currentColor);
 }
 
 .bg-symbol svg {
@@ -727,6 +1366,7 @@ form.is-hidden {
 .bg-symbol--cyan { color: var(--cyan); }
 .bg-symbol--violet { color: var(--violet); }
 .bg-symbol--magenta { color: var(--magenta); }
+.bg-symbol--green { color: var(--brand-green); }
 
 @keyframes bg-float-a {
   0%, 100% { transform: translate(0, 0) rotate(0deg); }
@@ -747,6 +1387,41 @@ form.is-hidden {
 .bg-symbol--float-b { animation: bg-float-b 23s ease-in-out infinite -6s; }
 .bg-symbol--float-c { animation: bg-float-c 27s ease-in-out infinite -11s; }
 
+/* Wispy color smoke — large, soft-edged, blurred washes that sit behind
+   the pixel/symbol layer to fill in flat empty background space with
+   atmosphere rather than more discrete shapes. Very low opacity by
+   design (the blur + radial fade does most of the work, not opacity
+   alone), and slow drift so it's felt more than seen. */
+
+.bg-smoke {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.bg-smoke--cyan { background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 70%); }
+.bg-smoke--violet { background: radial-gradient(circle, rgba(167, 139, 250, 0.16), transparent 70%); }
+.bg-smoke--magenta { background: radial-gradient(circle, rgba(232, 121, 249, 0.14), transparent 70%); }
+.bg-smoke--green { background: radial-gradient(circle, rgba(144, 244, 6, 0.12), transparent 70%); }
+
+.bg-smoke--sm { width: 220px; height: 220px; }
+.bg-smoke--md { width: 340px; height: 340px; }
+.bg-smoke--lg { width: 480px; height: 480px; }
+
+@keyframes bg-smoke-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(24px, -20px) scale(1.08); }
+}
+
+@keyframes bg-smoke-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-20px, 22px) scale(1.05); }
+}
+
+.bg-smoke--drift-a { animation: bg-smoke-drift-a 34s ease-in-out infinite; }
+.bg-smoke--drift-b { animation: bg-smoke-drift-b 40s ease-in-out infinite -8s; }
+
 /* Hero section instances */
 
 .bg-pixel--hero-1 { top: 20%; left: 7%; }
@@ -755,10 +1430,23 @@ form.is-hidden {
 .bg-pixel--hero-4 { top: 22%; right: 10%; }
 .bg-pixel--hero-5 { top: 30%; right: 6%; }
 .bg-pixel--hero-6 { top: 72%; right: 15%; }
+.bg-pixel--hero-7 { top: 45%; left: 4%; }
+.bg-pixel--hero-8 { top: 8%; right: 22%; }
+.bg-pixel--hero-9 { top: 82%; left: 20%; }
+.bg-pixel--hero-10 { top: 40%; right: 4%; }
 
 .bg-symbol--hero-1 { top: 24%; left: 5%; }
 .bg-symbol--hero-2 { top: 62%; right: 8%; }
 .bg-symbol--hero-3 { top: 12%; right: 18%; }
+.bg-symbol--hero-4 { top: 78%; left: 16%; }
+.bg-symbol--hero-5 { top: 38%; left: 2%; }
+
+/* Games page: game library grid section instances */
+
+.bg-pixel--library-1 { top: 10%; left: 4%; }
+.bg-pixel--library-2 { top: 55%; left: 8%; }
+.bg-pixel--library-3 { top: 20%; right: 5%; }
+.bg-pixel--library-4 { top: 60%; right: 9%; }
 
 /* How-it-works section instances */
 
@@ -766,18 +1454,137 @@ form.is-hidden {
 .bg-pixel--how-2 { top: 55%; left: 8%; }
 .bg-pixel--how-3 { top: 20%; right: 5%; }
 .bg-pixel--how-4 { top: 60%; right: 9%; }
+.bg-pixel--how-5 { top: 35%; left: 12%; }
+.bg-pixel--how-6 { top: 80%; right: 14%; }
 
 .bg-symbol--how-1 { top: 8%; right: 12%; }
 .bg-symbol--how-2 { bottom: 10%; left: 6%; }
+.bg-symbol--how-3 { top: 40%; right: 3%; }
 
 /* CTA section instances */
 
 .bg-pixel--cta-1 { top: 15%; left: 6%; }
 .bg-pixel--cta-2 { top: 70%; left: 10%; }
 .bg-pixel--cta-3 { top: 25%; right: 8%; }
+.bg-pixel--cta-4 { top: 55%; right: 14%; }
+.bg-pixel--cta-5 { top: 85%; left: 22%; }
 
 .bg-symbol--cta-1 { top: 18%; right: 10%; }
 .bg-symbol--cta-2 { bottom: 15%; left: 9%; }
+.bg-symbol--cta-3 { top: 55%; right: 20%; }
+
+/* Why Games section instances */
+
+.bg-pixel--why-1 { top: 12%; left: 4%; }
+.bg-pixel--why-2 { top: 65%; left: 9%; }
+.bg-pixel--why-3 { top: 30%; right: 6%; }
+
+.bg-symbol--why-1 { top: 15%; right: 10%; }
+.bg-symbol--why-2 { bottom: 12%; right: 18%; }
+
+/* Games page: "Play That Contributes to Understanding" research section */
+
+.bg-pixel--research-1 { top: 10%; left: 5%; }
+.bg-pixel--research-2 { top: 68%; right: 8%; }
+.bg-pixel--research-3 { top: 35%; right: 4%; }
+
+/* Choices-reveal section instances */
+
+.bg-pixel--choices-1 { top: 8%; left: 5%; }
+.bg-pixel--choices-2 { top: 60%; right: 7%; }
+.bg-pixel--choices-3 { top: 85%; left: 15%; }
+
+.bg-symbol--choices-1 { top: 10%; right: 4%; }
+
+/* index.html: previously-undecorated sections (Why MR.Play stat strip,
+   Featured Game, Your Play Has a Purpose, Play to Insight, Trust,
+   Credibility) — filled in to give the page a more consistent background
+   presence top to bottom instead of alternating decorated/bare sections. */
+
+.bg-smoke--value-1 { top: 10%; left: 8%; }
+.bg-smoke--value-2 { bottom: 5%; right: 12%; }
+.bg-pixel--value-1 { top: 20%; left: 3%; }
+.bg-pixel--value-2 { top: 60%; right: 6%; }
+.bg-symbol--value-1 { top: 15%; right: 8%; }
+
+.bg-smoke--featured-1 { top: 20%; right: 4%; }
+.bg-pixel--featured-1 { top: 10%; left: 5%; }
+.bg-pixel--featured-2 { bottom: 12%; right: 8%; }
+.bg-symbol--featured-1 { bottom: 10%; left: 4%; }
+
+.bg-smoke--purpose-1 { top: 30%; left: 2%; }
+.bg-pixel--purpose-1 { top: 12%; right: 6%; }
+.bg-pixel--purpose-2 { bottom: 20%; left: 10%; }
+.bg-symbol--purpose-1 { top: 8%; right: 12%; }
+
+.bg-smoke--insight-1 { bottom: 10%; right: 6%; }
+.bg-pixel--insight-1 { top: 15%; left: 4%; }
+.bg-pixel--insight-2 { bottom: 15%; right: 10%; }
+.bg-symbol--insight-1 { top: 20%; right: 5%; }
+
+.bg-smoke--trust-1 { top: 15%; right: 3%; }
+.bg-pixel--trust-1 { top: 10%; left: 6%; }
+.bg-pixel--trust-2 { bottom: 18%; right: 12%; }
+.bg-symbol--trust-1 { bottom: 12%; left: 5%; }
+
+.bg-smoke--credibility-1 { bottom: 8%; left: 4%; }
+.bg-pixel--credibility-1 { top: 18%; right: 5%; }
+.bg-pixel--credibility-2 { bottom: 10%; left: 8%; }
+.bg-symbol--credibility-1 { top: 10%; left: 10%; }
+
+/* results.html: previously-undecorated sections (Player Overview, Recent
+   Result, Game History, Badges, Research Contribution) */
+
+.bg-smoke--overview-1 { top: 10%; right: 6%; }
+.bg-pixel--overview-1 { top: 20%; left: 4%; }
+.bg-pixel--overview-2 { bottom: 15%; right: 10%; }
+.bg-symbol--overview-1 { bottom: 10%; left: 8%; }
+
+.bg-smoke--recent-1 { bottom: 5%; left: 3%; }
+.bg-pixel--recent-1 { top: 12%; right: 5%; }
+.bg-pixel--recent-2 { bottom: 20%; left: 8%; }
+.bg-symbol--recent-1 { top: 15%; left: 6%; }
+
+.bg-smoke--history-1 { top: 15%; left: 5%; }
+.bg-pixel--history-1 { top: 8%; right: 6%; }
+.bg-pixel--history-2 { bottom: 12%; left: 10%; }
+.bg-symbol--history-1 { bottom: 8%; right: 4%; }
+
+.bg-smoke--badges-1 { top: 10%; right: 4%; }
+.bg-pixel--badges-1 { top: 15%; left: 6%; }
+.bg-pixel--badges-2 { bottom: 15%; right: 8%; }
+.bg-symbol--badges-1 { top: 10%; left: 10%; }
+
+.bg-smoke--contribution-1 { bottom: 10%; right: 5%; }
+.bg-pixel--contribution-1 { top: 12%; left: 5%; }
+.bg-pixel--contribution-2 { bottom: 18%; right: 10%; }
+.bg-symbol--contribution-1 { top: 8%; right: 8%; }
+
+/* index.html: smoke blobs layered into sections that already had
+   pixel/symbol decor, for extra atmosphere without touching the
+   existing elements. */
+
+.bg-smoke--hero-1 { top: 8%; left: 10%; }
+.bg-smoke--hero-2 { top: 55%; right: 8%; }
+.bg-smoke--how-1 { top: 20%; right: 6%; }
+.bg-smoke--choices-1 { bottom: 15%; left: 6%; }
+.bg-smoke--why-1 { top: 10%; left: 8%; }
+.bg-smoke--library-preview-1 { bottom: 10%; right: 8%; }
+.bg-smoke--final-cta-1 { top: 15%; left: 12%; }
+
+/* games.html: smoke blobs for sections that already had pixel/symbol
+   decor (hero reuses the same --hero-1/-2 smoke positions as index.html;
+   how-it-works reuses --how-1). */
+
+.bg-smoke--library-1 { top: 15%; right: 8%; }
+.bg-smoke--research-1 { bottom: 12%; left: 5%; }
+.bg-smoke--games-cta-1 { top: 10%; right: 10%; }
+
+/* results.html: smoke for the hero and leaderboards, which already had
+   pixel/symbol decor. */
+
+.bg-smoke--results-hero-1 { top: 10%; left: 8%; }
+.bg-smoke--leaderboards-1 { bottom: 10%; right: 6%; }
 
 /* Auth pages (signup / login) — sparse, so the form stays the focus */
 
@@ -785,11 +1592,21 @@ form.is-hidden {
 .bg-pixel--auth-2 { top: 75%; left: 8%; }
 .bg-pixel--auth-3 { top: 20%; right: 6%; }
 .bg-pixel--auth-4 { top: 68%; right: 7%; }
+.bg-pixel--auth-5 { top: 42%; left: 3%; }
+.bg-pixel--auth-6 { top: 45%; right: 3%; }
 
 .bg-symbol--auth-1 { top: 15%; right: 9%; }
 .bg-symbol--auth-2 { bottom: 12%; left: 6%; }
+.bg-symbol--auth-3 { top: 55%; right: 4%; }
+.bg-symbol--auth-4 { top: 38%; left: 10%; }
 
-/* Cursor trail (desktop, fine-pointer, no-reduced-motion only — gated in JS) */
+.bg-smoke--auth-1 { top: 8%; left: 6%; }
+.bg-smoke--auth-2 { bottom: 10%; right: 6%; }
+
+/* Cursor trail — small pixels (not round dots), desktop/fine-pointer,
+   no-reduced-motion only (gated in JS). Cycles through brand accent
+   colors so it reads as part of the same pixel-cluster visual system
+   as the background decor. */
 
 .cursor-trail-dot {
   position: fixed;
@@ -797,25 +1614,508 @@ form.is-hidden {
   left: 0;
   width: 6px;
   height: 6px;
-  border-radius: 50%;
-  background: var(--cyan);
-  opacity: 0.55;
+  border-radius: 1.5px;
+  opacity: 0.7;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(0deg);
   transition: opacity 0.45s ease, transform 0.45s ease;
   will-change: opacity, transform;
 }
 
+.cursor-trail-dot--cyan { background: var(--cyan); box-shadow: 0 0 5px rgba(34, 211, 238, 0.6); }
+.cursor-trail-dot--violet { background: var(--violet); box-shadow: 0 0 5px rgba(167, 139, 250, 0.6); }
+.cursor-trail-dot--magenta { background: var(--magenta); box-shadow: 0 0 5px rgba(232, 121, 249, 0.6); }
+
 .cursor-trail-dot.is-fading {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.4);
+  transform: translate(-50%, -50%) scale(0.3) rotate(25deg);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-symbol {
+  .bg-symbol,
+  .bg-smoke {
     animation: none !important;
   }
+}
+
+/* ---- Games page: portfolio grid, cards, status badges ------------------------------------- */
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: var(--space-4);
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.game-card-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(34, 211, 238, 0.16), transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(232, 121, 249, 0.14), transparent 60%),
+    var(--bg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.game-card-thumb svg {
+  width: 44px;
+  height: 44px;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.game-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.concept-art-badge {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  background: rgba(5, 6, 10, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.7rem;
+}
+
+.game-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.game-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.game-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.game-card-category {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.game-card-desc {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.game-card-purpose {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 0.65rem;
+}
+
+.game-card-footer {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.status-badge--available {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.status-badge--available::before {
+  background: #34d399;
+}
+
+.status-badge--coming-soon {
+  color: var(--cyan);
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.28);
+}
+
+.status-badge--coming-soon::before {
+  background: var(--cyan);
+}
+
+.status-badge--in-development {
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-subtle);
+}
+
+.status-badge--in-development::before {
+  background: var(--text-muted);
+}
+
+/* ---- Notice / confirmation banners (games page) -------------------------------------------- */
+
+.notice-banner {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.25rem;
+  border-radius: var(--radius-input);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-3);
+}
+
+.notice-banner.is-visible {
+  display: flex;
+}
+
+.notice-banner--danger {
+  background: rgba(251, 113, 133, 0.1);
+  border: 1px solid rgba(251, 113, 133, 0.3);
+  color: var(--text-primary);
+}
+
+.notice-banner--info {
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: var(--text-primary);
+}
+
+/* ---- Auth-prompt modal (games page) --------------------------------------------------------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 4, 8, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 200;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
+
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.modal-close:hover,
+.modal-close:focus-visible {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.modal-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ---- Results page (My Results player dashboard) ------------------------------------------ */
+
+.player-overview-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: var(--space-3);
+}
+
+.results-player-avatar {
+  width: 64px;
+  height: 64px;
+  font-size: 1.4rem;
+}
+
+.player-overview-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.player-overview-sub {
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.recent-result-stats {
+  margin-top: var(--space-3);
+}
+
+/* Simple dot-bulleted list — used for Recent Result's key decisions and
+   Research Contribution's participation history, both short lists of
+   plain lines rather than boxed items. */
+.dot-list {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dot-list li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+}
+
+.dot-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+
+/* Game History — a row-based list rather than a literal <table>, to match
+   the rest of the site's div-based component style. Status pills reuse
+   the existing .status-badge--available/--in-development colors,
+   relabeled "Completed"/"Previewed" here (personal completion status
+   rather than catalog availability). */
+.history-list {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.history-row {
+  display: grid;
+  grid-template-columns: 1.6fr auto auto auto auto;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1rem 1.25rem;
+}
+
+.history-row-game {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.history-row-title {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.history-row-category {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.history-row-score,
+.history-row-date {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.history-row-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Leaderboards */
+
+.leaderboard-columns {
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.leaderboard-list {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-input);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+}
+
+.leaderboard-row--you {
+  border-color: rgba(34, 211, 238, 0.4);
+  background: rgba(34, 211, 238, 0.07);
+}
+
+.leaderboard-rank {
+  width: 2.5rem;
+  flex: none;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.leaderboard-row--you .leaderboard-rank {
+  color: var(--cyan);
+}
+
+.leaderboard-name {
+  flex: 1;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.leaderboard-score {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Badges & Achievements */
+
+.badge-grid {
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.badge-card {
+  position: relative;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+}
+
+.badge-card--locked {
+  opacity: 0.45;
+}
+
+.badge-card h3 {
+  font-size: 1.02rem;
+  margin: 0.5rem 0 0.4rem;
+}
+
+.badge-card p {
+  font-size: 0.88rem;
+}
+
+.badge-meta {
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.badge-state {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cyan);
+}
+
+.badge-card--locked .badge-state {
+  color: var(--text-muted);
 }
 
 /* ---- Responsive ---------------------------------------------------------------------- */
@@ -824,9 +2124,74 @@ form.is-hidden {
   .card-grid {
     grid-template-columns: 1fr;
   }
+
+  .game-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .value-grid,
+  .insight-flow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .featured-game {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-game-media {
+    min-height: 220px;
+  }
+
+  .featured-game-body {
+    padding: var(--space-3);
+  }
+
+  .footer-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .badge-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .leaderboard-columns {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .badge-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-row {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 0.5rem;
+  }
+
+  .history-row-action {
+    justify-content: flex-start;
+  }
+
+  .value-grid,
+  .insight-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-columns {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .modal-card {
+    padding: 1.5rem;
+  }
+
   .container {
     padding: 0 1.1rem;
   }
@@ -836,6 +2201,9 @@ form.is-hidden {
   }
 
   .nav-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: 0.4rem;
     gap: 0.5rem;
   }
 

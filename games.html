@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Games — MR.Play</title>
+<meta name="description" content="Browse the MR.Play game portfolio. Anyone can look around — sign up or log in only when you're ready to play." />
+
+<link rel="icon" href="assets/favicon.png" type="image/png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-games">
+
+<noscript>
+  <p class="noscript-banner">This MR.Play demo needs JavaScript enabled to work — please enable it and reload.</p>
+</noscript>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" class="brand" aria-label="MR.Play home">
+        <img src="assets/icon.png" alt="" />
+        <span class="brand-text">MR.Play</span>
+      </a>
+      <div class="nav-actions">
+        <a href="games.html" class="nav-link is-active" aria-current="page">Games</a>
+        <a href="results.html" class="nav-link">My Results</a>
+        <a href="client-login.html" class="nav-link">Clients</a>
+        <span class="nav-auth-links">
+          <a href="login.html?from=games.html" class="nav-link">Log In</a>
+          <a href="signup.html?from=games.html" class="btn btn-primary">Sign Up</a>
+        </span>
+        <button type="button" class="nav-user-pill" id="nav-user-pill" hidden title="Click to log out (demo)">
+          <span class="nav-user-avatar" id="nav-user-avatar"></span>
+          <span class="nav-user-name" id="nav-user-name"></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--lg bg-smoke--cyan bg-smoke--drift-a bg-smoke--hero-1"></div>
+      <div class="bg-smoke bg-smoke--md bg-smoke--magenta bg-smoke--drift-b bg-smoke--hero-2"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--cyan bg-pixel--hero-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--hero-2"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--magenta bg-pixel--hero-3"></span>
+      <span class="bg-pixel bg-pixel--s bg-pixel--green bg-pixel--hero-4"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--hero-5"></span>
+      <span class="bg-symbol bg-symbol--cyan bg-symbol--float-a bg-symbol--hero-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M4 14l6-6 10 10"/></svg>
+      </span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-b bg-symbol--hero-2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.6-5 4.6 1.5 6.6L12 16.9 5.9 20l1.5-6.6-5-4.6 6.6-.6L12 2z"/></svg>
+      </span>
+    </div>
+    <div class="hero-tiles" aria-hidden="true">
+      <img class="hero-tile hero-tile-1" src="assets/games/gravity-well.jpg" alt="" />
+      <img class="hero-tile hero-tile-2" src="assets/games/breakfast-tycoon.jpg" alt="" />
+      <img class="hero-tile hero-tile-3" src="assets/games/stormfront.jpg" alt="" />
+    </div>
+    <div class="container">
+      <span class="eyebrow">Where Research Meets Play</span>
+      <h1>
+        Welcome to the <span class="gradient-text">MR.Play Game Library</span>
+      </h1>
+      <p class="lede">
+        Explore interactive games where play and research come together. Choose from our growing portfolio of game-based experiences and discover a more engaging way to take part in market research. Each MR.Play experience uses familiar game mechanics to make research participation more interactive and engaging. Browse the collection below, launch an available game, or preview the experiences currently in development.
+      </p>
+      <p class="lede hero-subline hero-subline--divider">Your play has a purpose.</p>
+    </div>
+  </section>
+
+  <section class="section" id="explore-games">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--md bg-smoke--green bg-smoke--drift-a bg-smoke--library-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--library-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--library-2"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--green bg-pixel--library-3"></span>
+      <span class="bg-pixel bg-pixel--s bg-pixel--magenta bg-pixel--library-4"></span>
+    </div>
+    <div class="container">
+      <div id="games-welcome-back" class="notice-banner notice-banner--info" role="status"></div>
+
+      <div class="section-heading">
+        <span class="eyebrow eyebrow--muted">The Game Library</span>
+      </div>
+
+      <div class="game-grid" id="game-grid"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--sm bg-smoke--violet bg-smoke--drift-b bg-smoke--research-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--cyan bg-pixel--research-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--magenta bg-pixel--research-2"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--violet bg-pixel--research-3"></span>
+    </div>
+    <div class="container">
+      <div class="prose-layout prose-layout--tight">
+      <div class="section-heading">
+        <span class="eyebrow eyebrow--muted">Play That Contributes to Understanding</span>
+        <p>
+          MR.Play turns traditional research activities into interactive
+          game experiences.
+        </p>
+      </div>
+      <div class="prose-section">
+        <p>
+          As you make choices, organize ideas, compare
+          options, or respond to challenges, your participation can help
+          researchers better understand preferences and decision-making —
+          while feeling more active, intuitive, and engaging than a
+          conventional survey.
+        </p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how-it-works">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--md bg-smoke--cyan bg-smoke--drift-a bg-smoke--how-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--how-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--how-2"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--green bg-pixel--how-3"></span>
+      <span class="bg-pixel bg-pixel--s bg-pixel--magenta bg-pixel--how-4"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--how-5"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--how-6"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-a bg-symbol--how-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-b bg-symbol--how-2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--magenta bg-symbol--float-c bg-symbol--how-3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7V5z"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow eyebrow--muted">How It Works</span>
+        <p>Three quick steps between browsing the library and playing a game.</p>
+      </div>
+
+      <div class="card-grid card-grid--flow">
+        <article class="card card--step">
+          <div class="card-step-row">
+            <span class="card-step-number">01</span>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            </span>
+          </div>
+          <span class="eyebrow eyebrow--muted">Explore</span>
+          <h3>Browse the library</h3>
+          <p>
+            Look through the current MR.Play game portfolio and learn about
+            each experience — no account required.
+          </p>
+        </article>
+
+        <span class="grid-chevron" aria-hidden="true">&rarr;</span>
+
+        <article class="card card--step">
+          <div class="card-step-row">
+            <span class="card-step-number">02</span>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+            </span>
+          </div>
+          <span class="eyebrow eyebrow--muted">Sign Up or Log In</span>
+          <h3>Complete a short access form</h3>
+          <p>
+            When you select an available game, you'll sign up or log in
+            first. It only happens once per visit.
+          </p>
+        </article>
+
+        <span class="grid-chevron" aria-hidden="true">&rarr;</span>
+
+        <article class="card card--step">
+          <div class="card-step-row">
+            <span class="card-step-number">03</span>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7V5z"/></svg>
+            </span>
+          </div>
+          <span class="eyebrow eyebrow--muted">Start Playing</span>
+          <h3>Your game opens in a new tab</h3>
+          <p>
+            The game launches in its own tab while MR.Play stays open in
+            the original one.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--lg bg-smoke--magenta bg-smoke--drift-b bg-smoke--games-cta-1"></div>
+      <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--cta-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--magenta bg-pixel--cta-2"></span>
+      <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--cta-3"></span>
+    </div>
+    <div class="container">
+      <div class="card cta-card">
+        <h2>More Experiences Are on the Way</h2>
+        <p>
+          The MR.Play library is continuing to grow. Games marked
+          <strong>In Development</strong> are previews of future research
+          experiences and cannot yet be launched.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-columns">
+      <div class="footer-brand">
+        <a href="index.html" class="brand" aria-label="MR.Play home">
+          <img src="assets/icon.png" alt="" />
+          <span class="brand-text">MR.Play</span>
+        </a>
+        <p class="footer-tagline">Where Research Meets Play</p>
+        <p class="footer-desc">Interactive game experiences designed to make market research participation more engaging.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="results.html">My Results</a></li>
+          <li><a href="signup.html">Sign Up</a></li>
+          <li><a href="login.html">Log In</a></li>
+          <li><a href="client-login.html">Clients</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <p class="footer-company-line">MR.Play is an Erevna Games experience.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-notice">This website is a prototype demonstration. Account creation and login do not represent a production authentication system.</p>
+      <p class="footer-copyright">&copy; 2026 Erevna Games. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" aria-hidden="true">
+  <div class="modal-card">
+    <button type="button" class="modal-close" id="auth-modal-close" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h2 class="modal-title" id="auth-modal-title">One quick step</h2>
+    <p class="modal-subtitle" id="auth-modal-subtitle">Sign up or log in to play <strong id="auth-modal-game-title">this game</strong>.</p>
+    <div class="modal-actions">
+      <a href="#" id="auth-modal-signup" class="btn btn-primary btn-block">Sign Up</a>
+      <a href="#" id="auth-modal-login" class="btn btn-secondary btn-block">Log In</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/games-data.js"></script>
+<script src="js/session.js"></script>
+<script src="js/nav-auth.js"></script>
+<script src="js/games.js"></script>
+<script src="js/effects.js"></script>
+</body>
+</html>

@@ -3,11 +3,21 @@
  *
  * Used by both signup.html and login.html. There is no backend anywhere:
  * this file only checks what the player typed, shows inline errors next to
- * the offending field, and — on a valid submit — shows a brief simulated
- * "success" state before opening GAME_URL (from js/config.js) in a new tab.
+ * the offending field, marks the visitor "signed in" for this browser tab
+ * (js/session.js), and returns them to whichever page they came from —
+ * it does NOT open any game. (Games are launched separately, from
+ * games.html, once the visitor is recognized as signed in — see js/games.js.)
  *
- * Nothing here reads or writes localStorage, sessionStorage, or cookies,
- * and nothing here makes a network request of any kind.
+ * "Which page to return to" is carried as a ?from=<page>.html query param
+ * rather than document.referrer, deliberately — referrer comes back empty
+ * under file://, which is exactly how this prototype is meant to be run by
+ * a non-developer (double-click index.html). Every link that points at
+ * these two forms includes ?from=; if a visitor detours from one form to
+ * the other before submitting (the "already have an account? Log in"
+ * link), that same value is forwarded so it still resolves correctly.
+ *
+ * The only persistence anywhere is that session-scoped "signed in" marker.
+ * No cookies, no localStorage, no network request of any kind.
  */
 
 (function () {
@@ -136,26 +146,49 @@
   }
 
   /* ---------------------------------------------------------------------
-   * Simulated success + handoff into the game
+   * Where to return to after a successful submit
    * ------------------------------------------------------------------- */
 
-  function openGame(card) {
-    // GAME_URL comes from js/config.js (loaded before this file). This is
-    // the only function in the whole codebase that reads it. Guarded in
-    // case config.js failed to load, so a missing constant shows a visible
-    // message instead of silently throwing after the success UI is shown.
-    if (typeof GAME_URL === 'undefined') {
-      var successEl = card && card.querySelector('.success-state');
-      var msgEl = successEl && successEl.querySelector('.success-message');
-      if (msgEl) {
-        msgEl.textContent = 'Something went wrong loading the game link. Please refresh and try again.';
-      }
-      return;
+  var RETURN_TARGET_PATTERN = /^[a-zA-Z0-9_-]+\.html$/;
+  var DEFAULT_RETURN_TARGET = 'index.html';
+
+  function getFromParam() {
+    var params = new URLSearchParams(window.location.search);
+    var from = params.get('from');
+    // Only ever a bare same-directory page name — this is a static
+    // same-origin site, so "from" should never be anything else. Guards
+    // against an implausible but cheap-to-block open-redirect shape.
+    if (from && RETURN_TARGET_PATTERN.test(from)) {
+      return from;
     }
-    window.open(GAME_URL, '_blank');
+    return null;
   }
 
-  function showSuccessState(card, message) {
+  function resolveReturnTarget() {
+    return getFromParam() || DEFAULT_RETURN_TARGET;
+  }
+
+  // The "switch to the other form" link (signup ↔ login) needs to carry
+  // the SAME ?from= value forward, so a visitor who detours through both
+  // forms still lands back on the page they originally came from — not
+  // on whichever auth form they happened to submit from.
+  function initCrossLinkForwarding() {
+    var from = getFromParam();
+    if (!from) {
+      return;
+    }
+    var links = document.querySelectorAll('a[href="signup.html"], a[href="login.html"]');
+    links.forEach(function (link) {
+      link.href = link.getAttribute('href') + '?from=' + encodeURIComponent(from);
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+   * Simulated success — mark this tab signed in, then return the visitor
+   * to where they came from. No game is opened here.
+   * ------------------------------------------------------------------- */
+
+  function showSuccessState(card, message, returnTarget) {
     var formEl = card.querySelector('form');
     var successEl = card.querySelector('.success-state');
 
@@ -166,16 +199,23 @@
     if (successEl) {
       successEl.querySelector('.success-message').textContent = message;
       successEl.classList.add('is-visible');
+
+      // Manual fallback in case the timed redirect below doesn't fire for
+      // some reason (e.g. a script error elsewhere on the page) — same-tab
+      // navigation, so no popup-blocker concerns the way window.open had.
+      var fallback = successEl.querySelector('[data-fallback-link]');
+      if (fallback) {
+        fallback.href = returnTarget;
+      }
     }
 
-    // Open the game immediately, synchronously within the same user
-    // gesture that triggered submit — delaying this risks browsers (Safari
-    // especially) blocking the popup because it no longer looks
-    // gesture-triggered. The success message stays on screen regardless.
-    // The manual "Continue to the game" link stays as a fallback for
-    // browsers that block it anyway — there's no pending timer left to
-    // race against, so it can't cause a duplicate tab.
-    openGame(card);
+    // Brief pause so the welcome message is actually readable before the
+    // page navigates away. This is same-tab navigation (not window.open),
+    // so — unlike the old game-launch flow — there's no popup-blocker
+    // reason this has to be synchronous with the click.
+    window.setTimeout(function () {
+      window.location.href = returnTarget;
+    }, 900);
   }
 
   /* ---------------------------------------------------------------------
@@ -235,9 +275,19 @@
         validateEmailField,
         validatePasswordMatch
       ]);
-      if (valid) {
-        showSuccessState(card, 'Welcome to MR.Play! Taking you to your first game…');
+      if (!valid) {
+        return;
       }
+
+      var nameInput = form.querySelector('[name="name"]');
+      var displayName = nameInput ? nameInput.value.trim() : '';
+
+      if (window.MRPlaySession) {
+        window.MRPlaySession.set(displayName);
+      }
+
+      var message = 'Welcome, ' + displayName + '! You’re all set.';
+      showSuccessState(card, message, resolveReturnTarget());
     });
   }
 
@@ -252,31 +302,29 @@
     form.addEventListener('submit', function (event) {
       event.preventDefault();
       var valid = runValidation(form, [validateRequiredFields]);
-      if (valid) {
-        showSuccessState(card, 'Welcome back! Taking you into the game…');
+      if (!valid) {
+        return;
       }
-    });
-  }
 
-  /* ---------------------------------------------------------------------
-   * Fallback link in the success state, in case a popup blocker stops the
-   * automatic window.open(). Still just a plain link to GAME_URL — no new
-   * behavior, just resilience for browsers that block delayed window.open.
-   * ------------------------------------------------------------------- */
+      var identifierInput = form.querySelector('[name="identifier"]');
+      var identifier = identifierInput ? identifierInput.value.trim() : '';
 
-  function initFallbackLinks() {
-    var links = document.querySelectorAll('[data-fallback-link]');
-    links.forEach(function (link) {
-      link.href = GAME_URL;
-      link.target = '_blank';
-      link.rel = 'noopener';
+      // No backend exists, so there is no prior registration record to
+      // look up — the welcome message uses exactly what's currently typed
+      // in this field, never a fabricated or "remembered" Full Name.
+      if (window.MRPlaySession) {
+        window.MRPlaySession.set(identifier);
+      }
+
+      var message = 'Welcome back, ' + identifier + '!';
+      showSuccessState(card, message, resolveReturnTarget());
     });
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    initCrossLinkForwarding();
     initSignupForm();
     initLoginForm();
     initSocialButtons();
-    initFallbackLinks();
   });
 })();

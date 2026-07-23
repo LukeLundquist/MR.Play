@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Sign Up — MR.Play</title>
-<meta name="description" content="Create your MR.Play player account and jump into your first game." />
+<meta name="description" content="Create your MR.Play player account." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +28,16 @@
         <span class="brand-text">MR.Play</span>
       </a>
       <div class="nav-actions">
-        <a href="login.html" class="nav-link">Log In</a>
+        <a href="games.html" class="nav-link">Games</a>
+        <a href="results.html" class="nav-link">My Results</a>
+        <a href="client-login.html" class="nav-link">Clients</a>
+        <span class="nav-auth-links">
+          <a href="login.html" class="nav-link">Log In</a>
+        </span>
+        <button type="button" class="nav-user-pill" id="nav-user-pill" hidden title="Click to log out (demo)">
+          <span class="nav-user-avatar" id="nav-user-avatar"></span>
+          <span class="nav-user-name" id="nav-user-name"></span>
+        </button>
       </div>
     </nav>
   </div>
@@ -36,15 +45,25 @@
 
 <main class="auth-main">
   <div class="bg-decor" aria-hidden="true">
+    <div class="bg-smoke bg-smoke--lg bg-smoke--violet bg-smoke--drift-a bg-smoke--auth-1"></div>
+    <div class="bg-smoke bg-smoke--md bg-smoke--cyan bg-smoke--drift-b bg-smoke--auth-2"></div>
     <span class="bg-pixel bg-pixel--s bg-pixel--cyan bg-pixel--auth-1"></span>
     <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--auth-2"></span>
     <span class="bg-pixel bg-pixel--m bg-pixel--magenta bg-pixel--auth-3"></span>
     <span class="bg-pixel bg-pixel--xs bg-pixel--green bg-pixel--auth-4"></span>
+    <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--auth-5"></span>
+    <span class="bg-pixel bg-pixel--s bg-pixel--magenta bg-pixel--auth-6"></span>
     <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-b bg-symbol--auth-1">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 19V13M12 19V8M19 19v-6"/></svg>
     </span>
     <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-c bg-symbol--auth-2">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg>
+    </span>
+    <span class="bg-symbol bg-symbol--sm bg-symbol--magenta bg-symbol--float-a bg-symbol--auth-3">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 1 1 4 2.8c-.7.3-1 .9-1 1.7v.5"/><circle cx="12" cy="17.3" r="0.6" fill="currentColor" stroke="none"/></svg>
+    </span>
+    <span class="bg-symbol bg-symbol--sm bg-symbol--green bg-symbol--float-b bg-symbol--auth-4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
     </span>
   </div>
   <div class="container">
@@ -53,7 +72,7 @@
       <div class="auth-card-header">
         <span class="eyebrow">Where Research Meets Play</span>
         <h1>Sign up to play</h1>
-        <p>Takes about two minutes. Your answers help us match you with games that fit.</p>
+        <p>Takes about two minutes. Your answers help us match you with games that fit — you'll pick what to play from the Games page.</p>
       </div>
 
       <form id="signup-form" novalidate>
@@ -204,7 +223,7 @@
           </svg>
         </div>
         <p class="success-message"></p>
-        <p class="auth-switch">Didn't open automatically? <a href="#" data-fallback-link>Continue to the game</a></p>
+        <p class="auth-switch">Didn't redirect? <a href="#" data-fallback-link>Continue</a></p>
       </div>
 
       <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
@@ -214,17 +233,40 @@
 
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-row">
-      <a href="index.html" class="brand" aria-label="MR.Play home">
-        <img src="assets/icon.png" alt="" />
-        <span class="brand-text">MR.Play</span>
-      </a>
-      <p class="footer-meta">This is a prototype demo. Nothing you enter is stored. &copy; 2026 Erevna Games.</p>
+    <div class="footer-columns">
+      <div class="footer-brand">
+        <a href="index.html" class="brand" aria-label="MR.Play home">
+          <img src="assets/icon.png" alt="" />
+          <span class="brand-text">MR.Play</span>
+        </a>
+        <p class="footer-tagline">Where Research Meets Play</p>
+        <p class="footer-desc">Interactive game experiences designed to make market research participation more engaging.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="results.html">My Results</a></li>
+          <li><a href="signup.html">Sign Up</a></li>
+          <li><a href="login.html">Log In</a></li>
+          <li><a href="client-login.html">Clients</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <p class="footer-company-line">MR.Play is an Erevna Games experience.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-notice">This website is a prototype demonstration. Nothing you enter is stored, and account creation and login do not represent a production authentication system.</p>
+      <p class="footer-copyright">&copy; 2026 Erevna Games. All rights reserved.</p>
     </div>
   </div>
 </footer>
 
-<script src="js/config.js"></script>
+<script src="js/session.js"></script>
+<script src="js/nav-auth.js"></script>
 <script src="js/validation.js"></script>
 <script src="js/effects.js"></script>
 </body>

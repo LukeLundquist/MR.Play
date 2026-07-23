@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>MR.Play — Where Research Meets Play</title>
-<meta name="description" content="MR.Play turns quick games into a fun way to share your opinions. Sign up or log in and jump straight into your next game." />
+<meta name="description" content="MR.Play turns quick games into a fun way to share your opinions. Browse the game portfolio, then sign up or log in when you're ready to play." />
 
 <link rel="icon" href="assets/favicon.png" type="image/png" />
 
@@ -28,8 +28,17 @@
         <span class="brand-text">MR.Play</span>
       </a>
       <div class="nav-actions">
-        <a href="login.html" class="nav-link">Log In</a>
-        <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        <a href="games.html" class="nav-link">Games</a>
+        <a href="results.html" class="nav-link">My Results</a>
+        <a href="client-login.html" class="nav-link">Clients</a>
+        <span class="nav-auth-links">
+          <a href="login.html?from=index.html" class="nav-link">Log In</a>
+          <a href="signup.html?from=index.html" class="btn btn-primary">Sign Up</a>
+        </span>
+        <button type="button" class="nav-user-pill" id="nav-user-pill" hidden title="Click to log out (demo)">
+          <span class="nav-user-avatar" id="nav-user-avatar"></span>
+          <span class="nav-user-name" id="nav-user-name"></span>
+        </button>
       </div>
     </nav>
   </div>
@@ -37,14 +46,21 @@
 
 <main>
 
+  <!-- Hero -->
   <section class="hero">
     <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--lg bg-smoke--cyan bg-smoke--drift-a bg-smoke--hero-1"></div>
+      <div class="bg-smoke bg-smoke--md bg-smoke--magenta bg-smoke--drift-b bg-smoke--hero-2"></div>
       <span class="bg-pixel bg-pixel--s bg-pixel--cyan bg-pixel--hero-1"></span>
       <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--hero-2"></span>
       <span class="bg-pixel bg-pixel--m bg-pixel--magenta bg-pixel--hero-3"></span>
       <span class="bg-pixel bg-pixel--s bg-pixel--green bg-pixel--hero-4"></span>
       <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--hero-5"></span>
       <span class="bg-pixel bg-pixel--m bg-pixel--violet bg-pixel--hero-6"></span>
+      <span class="bg-pixel bg-pixel--s bg-pixel--magenta bg-pixel--hero-7"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--green bg-pixel--hero-8"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--hero-9"></span>
+      <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--hero-10"></span>
       <span class="bg-symbol bg-symbol--cyan bg-symbol--float-a bg-symbol--hero-1">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.6-5 4.6 1.5 6.6L12 16.9 5.9 20l1.5-6.6-5-4.6 6.6-.6L12 2z"/></svg>
       </span>
@@ -54,98 +70,354 @@
       <span class="bg-symbol bg-symbol--lg bg-symbol--magenta bg-symbol--float-c bg-symbol--hero-3">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6.5"/><path d="M19 19l-4.5-4.5"/></svg>
       </span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-b bg-symbol--hero-4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 1 1 4 2.8c-.7.3-1 .9-1 1.7v.5"/><circle cx="12" cy="17.3" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-c bg-symbol--hero-5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="1.6"/><circle cx="12" cy="10" r="1.6"/><circle cx="18" cy="14" r="1.6"/><path d="M6 17l6-7 6 4"/></svg>
+      </span>
     </div>
     <div class="container">
       <span class="eyebrow">Where Research Meets Play</span>
       <h1>
-        Your opinions,<br />
-        <span class="gradient-text">turned into games.</span>
+        <span class="gradient-text">Play Your Part</span>
       </h1>
       <p class="lede">
-        MR.Play is a quick, fun way to tell brands what you really think —
-        through short interactive games instead of long, boring surveys.
-        Sign up, play, and you're done in minutes.
+        MR.Play is your gateway to interactive research games created by
+        Erevna Games.
+      </p>
+      <p class="lede">
+        Log in, discover your available games, and jump into experiences
+        built around your choices, instincts, and reactions. Every move
+        you make helps shape meaningful research—while giving you a
+        faster, more active, and more enjoyable way to make your voice
+        count.
       </p>
       <div class="hero-actions">
-        <a href="signup.html" class="btn btn-primary">Sign Up to Play</a>
-        <a href="login.html" class="btn btn-secondary">Log In</a>
+        <a href="signup.html?from=index.html" class="btn btn-primary">Sign Up to Play</a>
+        <a href="games.html" class="btn btn-secondary">Explore Games</a>
+      </div>
+      <p class="auth-switch">Already have an account? <a href="login.html?from=index.html">Log In</a></p>
+      <p class="lede hero-subline">Short games. Real opinions. Meaningful research.</p>
+    </div>
+  </section>
+
+  <!-- Quick Value Statements -->
+  <section class="section" aria-label="Why MR.Play">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--md bg-smoke--cyan bg-smoke--drift-a bg-smoke--value-1"></div>
+      <div class="bg-smoke bg-smoke--sm bg-smoke--violet bg-smoke--drift-b bg-smoke--value-2"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--cyan bg-pixel--value-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--magenta bg-pixel--value-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-a bg-symbol--value-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="value-grid value-grid--bar">
+        <div class="value-item">
+          <h3>Built for Players</h3>
+          <p>Simple instructions, quick activities, and no research expertise required.</p>
+        </div>
+        <div class="value-item">
+          <h3>Designed Around Play</h3>
+          <p>Interactive experiences replace long pages of repetitive questions.</p>
+        </div>
+        <div class="value-item">
+          <h3>Powered by Perspective</h3>
+          <p>Your choices help researchers understand what people value and prefer.</p>
+        </div>
+        <div class="value-item">
+          <h3>Made to Matter</h3>
+          <p>Better research can support better products, services, and experiences.</p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Featured Game -->
+  <section class="section" id="featured-game">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--lg bg-smoke--magenta bg-smoke--drift-a bg-smoke--featured-1"></div>
+      <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--featured-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--green bg-pixel--featured-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-b bg-symbol--featured-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="8" rx="4"/><line x1="7" y1="13" x2="9" y2="13"/><line x1="8" y1="12" x2="8" y2="14"/><circle cx="16" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="18" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="featured-game">
+        <div class="featured-game-media">
+          <img src="assets/games/gravity-well.jpg" alt="Gravity Well title screen: three glowing rings floating in a starfield above a sorting orb." />
+        </div>
+        <div class="featured-game-body">
+          <span class="eyebrow">Available to Play</span>
+          <h2>Enter the <span class="gradient-text">Gravity Well</span></h2>
+          <p>
+            Gravity Well turns sorting, ranking, and decision-making into a
+            fast-paced interactive challenge. You will organize choices
+            based on your own perspective, put those decisions into
+            motion, and respond as the game introduces new challenges.
+          </p>
+          <p>
+            What feels like gameplay also creates a clearer picture of how
+            you compare, prioritize, and react to different options. There
+            are no perfect answers and no special knowledge is required —
+            the goal is simply to play honestly and make the choices that
+            feel right to you.
+          </p>
+          <div class="featured-game-actions">
+            <a href="games.html#game-gravity-well" class="btn btn-primary">View Gravity Well</a>
+            <a href="games.html" class="btn btn-secondary">Explore the Game Library</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
   <section class="section" id="how-it-works">
     <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--md bg-smoke--violet bg-smoke--drift-a bg-smoke--how-1"></div>
       <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--how-1"></span>
       <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--how-2"></span>
       <span class="bg-pixel bg-pixel--m bg-pixel--green bg-pixel--how-3"></span>
       <span class="bg-pixel bg-pixel--s bg-pixel--magenta bg-pixel--how-4"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--how-5"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--how-6"></span>
       <span class="bg-symbol bg-symbol--cyan bg-symbol--float-b bg-symbol--how-1">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg>
       </span>
       <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-a bg-symbol--how-2">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M4 14l6-6 10 10"/></svg>
       </span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--magenta bg-symbol--float-c bg-symbol--how-3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.6-5 4.6 1.5 6.6L12 16.9 5.9 20l1.5-6.6-5-4.6 6.6-.6L12 2z"/></svg>
+      </span>
     </div>
     <div class="container">
       <div class="section-heading">
-        <span class="eyebrow">How it works</span>
-        <p>Three quick steps between finding MR.Play and playing your first game.</p>
+        <span class="eyebrow">How It Works</span>
+        <h2>From First Visit to First Game</h2>
+        <p>
+          Getting started with MR.Play is simple. You do not need
+          experience with research, gaming, or technology — we guide you
+          through each step so you can focus on the experience and share
+          your perspective naturally.
+        </p>
       </div>
 
-      <div class="card-grid">
+      <div class="card-grid card-grid--flow">
         <article class="card">
           <span class="eyebrow">Step 1</span>
-          <h3>Sign up in minutes</h3>
+          <h3>Create Your Player Profile</h3>
           <p>
-            Create your player profile with a few quick questions —
-            no essays, no hoops to jump through.
+            A few details get you started. Create your MR.Play profile
+            through a short sign-up process — no essays, no complicated
+            setup, and no lengthy forms before you can begin exploring.
           </p>
         </article>
+
+        <span class="grid-chevron" aria-hidden="true">&rarr;</span>
 
         <article class="card">
           <span class="eyebrow">Step 2</span>
-          <h3>Play, don't just answer</h3>
+          <h3>Choose Your Experience</h3>
           <p>
-            Instead of a long form, you'll play a short interactive game.
-            It's quick, and honestly kind of fun.
+            Browse the game library to see what is currently available and
+            preview the experiences still in development. Select an
+            available experience whenever you are ready to begin.
           </p>
         </article>
 
+        <span class="grid-chevron" aria-hidden="true">&rarr;</span>
+
         <article class="card">
           <span class="eyebrow">Step 3</span>
-          <h3>Your opinion, heard</h3>
+          <h3>Play and Contribute</h3>
           <p>
-            What you share helps real brands build things people actually
-            like — straight from you, no filler.
+            Follow the instructions and respond based on your own
+            preferences and reactions. The experience may feel playful,
+            but your participation serves a serious purpose.
           </p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <!-- Research Purpose -->
+  <section class="section" id="research-purpose">
     <div class="bg-decor" aria-hidden="true">
-      <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--cta-1"></span>
-      <span class="bg-pixel bg-pixel--xs bg-pixel--magenta bg-pixel--cta-2"></span>
-      <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--cta-3"></span>
-      <span class="bg-symbol bg-symbol--magenta bg-symbol--float-c bg-symbol--cta-1">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M7 5H4v1a4 4 0 0 0 4 4"/><path d="M17 5h3v1a4 4 0 0 1-4 4"/><path d="M12 13v3M9 20h6M10 17h4v3h-4z"/></svg>
-      </span>
-      <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-a bg-symbol--cta-2">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.6-5 4.6 1.5 6.6L12 16.9 5.9 20l1.5-6.6-5-4.6 6.6-.6L12 2z"/></svg>
+      <div class="bg-smoke bg-smoke--md bg-smoke--violet bg-smoke--drift-b bg-smoke--purpose-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--cyan bg-pixel--purpose-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--purpose-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--magenta bg-symbol--float-c bg-symbol--purpose-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l3-5h8l3 5-7 11z"/><path d="M8 4l1.5 5L12 4.3 14.5 9 16 4"/><path d="M5 9h14"/></svg>
       </span>
     </div>
     <div class="container">
-      <div class="card cta-card">
-        <h2>Ready to play?</h2>
+      <div class="prose-layout">
+      <div class="section-heading">
+        <span class="eyebrow">Your Play Has a Purpose</span>
+      </div>
+      <div class="prose-section">
+        <p class="prose-standout">The best research starts with honest human perspective.</p>
         <p>
-          New here? Create a player account in under two minutes.
-          Already signed up? Jump back in.
+          Organizations make decisions every day about what to create,
+          improve, communicate, or offer. To make those decisions
+          responsibly, they need to understand the people who may
+          eventually use their products and services. That is where your
+          participation matters.
+        </p>
+        <p>
+          MR.Play provides a more engaging way to contribute to that
+          understanding. Instead of limiting your perspective to a series
+          of static questions, our games allow you to respond through
+          choices, comparisons, rankings, and interactive challenges —
+          activities that can help researchers explore not only what
+          people select, but how they organize priorities and respond when
+          faced with different options.
+        </p>
+        <p>
+          The experience may be light and playful, but the insight behind
+          it is taken seriously. Thoughtful research helps replace
+          assumptions with evidence — and your perspective is part of that
+          evidence.
+        </p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Your Choices Can Help Reveal -->
+  <section class="section" id="choices-reveal">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--md bg-smoke--magenta bg-smoke--drift-b bg-smoke--choices-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--magenta bg-pixel--choices-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--choices-2"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--choices-3"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--magenta bg-symbol--float-c bg-symbol--choices-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="1.6"/><circle cx="12" cy="10" r="1.6"/><circle cx="18" cy="14" r="1.6"/><path d="M6 17l6-7 6 4"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="section-heading">
+        <h2>Small Decisions Can Create Meaningful Insight</h2>
+        <p>
+          A single game does not speak for everyone, and one answer does
+          not tell the whole story. Meaningful research comes from
+          identifying patterns across many participants, perspectives, and
+          decisions. Depending on the research experience, your gameplay
+          may help researchers better understand:
+        </p>
+      </div>
+
+      <div class="value-grid value-grid--badged">
+        <div class="value-item">
+          <span class="value-item-number">01</span>
+          <h3>Preferences</h3>
+          <p>Which products, features, messages, or experiences people are naturally drawn toward.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-item-number">02</span>
+          <h3>Priorities</h3>
+          <p>What people value most when they must compare options or make tradeoffs.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-item-number">03</span>
+          <h3>Perceptions</h3>
+          <p>How different ideas, brands, or experiences are understood and related.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-item-number">04</span>
+          <h3>Decision-Making</h3>
+          <p>How people respond when information, timing, context, or available choices change.</p>
+        </div>
+      </div>
+
+      <div class="prose-section prose-section--spaced">
+        <p>
+          Your participation becomes one part of a larger research
+          picture. When combined responsibly with the input of other
+          players, it can help organizations make decisions grounded in
+          what people actually think — not simply what someone assumes
+          they think.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Play-to-Insight -->
+  <section class="section" id="play-to-insight">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--sm bg-smoke--cyan bg-smoke--drift-a bg-smoke--insight-1"></div>
+      <span class="bg-pixel bg-pixel--m bg-pixel--violet bg-pixel--insight-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--insight-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-a bg-symbol--insight-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Play to Insight</span>
+      </div>
+
+      <div class="insight-flow insight-flow--flow">
+        <div class="insight-step">
+          <span class="insight-step-number">01</span>
+          <h3>Your Perspective</h3>
+          <p>You begin with your own opinions, preferences, and experiences. There are no predetermined "correct" answers.</p>
+        </div>
+
+        <span class="grid-chevron" aria-hidden="true">&rarr;</span>
+
+        <div class="insight-step">
+          <span class="insight-step-number">02</span>
+          <h3>Your Choices</h3>
+          <p>You express those perspectives through interactive decisions, comparisons, rankings, and challenges.</p>
+        </div>
+
+        <span class="grid-chevron" aria-hidden="true">&rarr;</span>
+
+        <div class="insight-step">
+          <span class="insight-step-number">03</span>
+          <h3>Research Insight</h3>
+          <p>Researchers examine patterns across participant responses to better understand what people value and how they make decisions.</p>
+        </div>
+
+        <span class="grid-chevron" aria-hidden="true">&rarr;</span>
+
+        <div class="insight-step">
+          <span class="insight-step-number">04</span>
+          <h3>Better Understanding</h3>
+          <p>That insight can help organizations approach future products, services, communications, and experiences with a stronger understanding of the people they serve.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--lg bg-smoke--violet bg-smoke--drift-a bg-smoke--final-cta-1"></div>
+      <span class="bg-pixel bg-pixel--m bg-pixel--green bg-pixel--cta-4"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--cta-5"></span>
+    </div>
+    <div class="container">
+      <div class="card cta-card">
+        <h2>Ready to Make Your Opinions Playable?</h2>
+        <p>
+          Explore a different kind of market research — one where your
+          perspective moves through the experience with you. Create your
+          player profile, choose an available game, and contribute through
+          short, interactive activities designed to make participation
+          feel less like a form and more like play.
         </p>
         <div class="hero-actions cta-card-actions">
-          <a href="signup.html" class="btn btn-primary">Sign Up to Play</a>
-          <a href="login.html" class="btn btn-secondary">Log In</a>
+          <a href="signup.html?from=index.html" class="btn btn-primary">Sign Up to Play</a>
+          <a href="games.html" class="btn btn-secondary">Explore Games</a>
         </div>
+        <p class="auth-switch">Already signed up? <a href="login.html?from=index.html">Log In</a></p>
       </div>
     </div>
   </section>
@@ -154,16 +426,40 @@
 
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-row">
-      <a href="index.html" class="brand" aria-label="MR.Play home">
-        <img src="assets/icon.png" alt="" />
-        <span class="brand-text">MR.Play</span>
-      </a>
-      <p class="footer-meta">This is a prototype demo. &copy; 2026 Erevna Games.</p>
+    <div class="footer-columns">
+      <div class="footer-brand">
+        <a href="index.html" class="brand" aria-label="MR.Play home">
+          <img src="assets/icon.png" alt="" />
+          <span class="brand-text">MR.Play</span>
+        </a>
+        <p class="footer-tagline">Where Research Meets Play</p>
+        <p class="footer-desc">Interactive game experiences designed to make market research participation more engaging.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="results.html">My Results</a></li>
+          <li><a href="signup.html">Sign Up</a></li>
+          <li><a href="login.html">Log In</a></li>
+          <li><a href="client-login.html">Clients</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <p class="footer-company-line">MR.Play is an Erevna Games experience.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-notice">This website is a prototype demonstration. Account creation and login do not represent a production authentication system.</p>
+      <p class="footer-copyright">&copy; 2026 Erevna Games. All rights reserved.</p>
     </div>
   </div>
 </footer>
 
+<script src="js/session.js"></script>
+<script src="js/nav-auth.js"></script>
 <script src="js/effects.js"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Log In — MR.Play</title>
-<meta name="description" content="Log in to your MR.Play player account." />
+<title>Client Access — MR.Play</title>
+<meta name="description" content="Client sign-in for MR.Play research results, hosted separately on SureTel/EGHub." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,9 +30,10 @@
       <div class="nav-actions">
         <a href="games.html" class="nav-link">Games</a>
         <a href="results.html" class="nav-link">My Results</a>
-        <a href="client-login.html" class="nav-link">Clients</a>
+        <a href="client-login.html" class="nav-link is-active" aria-current="page">Clients</a>
         <span class="nav-auth-links">
-          <a href="signup.html" class="nav-link">Sign Up</a>
+          <a href="login.html" class="nav-link">Log In</a>
+          <a href="signup.html" class="btn btn-primary">Sign Up</a>
         </span>
         <button type="button" class="nav-user-pill" id="nav-user-pill" hidden title="Click to log out (demo)">
           <span class="nav-user-avatar" id="nav-user-avatar"></span>
@@ -53,40 +54,28 @@
     <span class="bg-pixel bg-pixel--xs bg-pixel--green bg-pixel--auth-4"></span>
     <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--auth-5"></span>
     <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--auth-6"></span>
-    <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-a bg-symbol--auth-1">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.6-5 4.6 1.5 6.6L12 16.9 5.9 20l1.5-6.6-5-4.6 6.6-.6L12 2z"/></svg>
-    </span>
-    <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-b bg-symbol--auth-2">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M4 14l6-6 10 10"/></svg>
-    </span>
-    <span class="bg-symbol bg-symbol--sm bg-symbol--magenta bg-symbol--float-c bg-symbol--auth-3">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="1.6"/><circle cx="12" cy="10" r="1.6"/><circle cx="18" cy="14" r="1.6"/><path d="M6 17l6-7 6 4"/></svg>
-    </span>
-    <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-b bg-symbol--auth-4">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M12 10v7"/><path d="M8 20h8"/><path d="M9 20l1-3h4l1 3"/></svg>
-    </span>
   </div>
   <div class="container">
     <div class="auth-card auth-card-narrow">
 
       <div class="auth-card-header">
-        <span class="eyebrow">Where Research Meets Play</span>
-        <h1>Welcome back</h1>
-        <p>Log in to keep playing.</p>
+        <span class="eyebrow">Client Access</span>
+        <h1>Looking for the EG Hub?</h1>
+        <p>Enter your EG Hub email address or ID and password to continue.</p>
       </div>
 
-      <form id="login-form" novalidate>
+      <form id="client-login-form" novalidate>
         <div class="form-field">
-          <label for="login-identifier">Email or username</label>
-          <input type="text" id="login-identifier" name="identifier" data-label="Email or username" autocomplete="username" required />
+          <label for="client-login-identifier">Client email or ID</label>
+          <input type="text" id="client-login-identifier" name="clientId" data-label="Client email or ID" autocomplete="username" required />
         </div>
         <div class="form-field">
-          <label for="login-password">Password</label>
-          <input type="password" id="login-password" name="password" data-label="Password" autocomplete="current-password" required />
+          <label for="client-login-password">Password</label>
+          <input type="password" id="client-login-password" name="password" data-label="Password" autocomplete="current-password" required />
         </div>
 
         <div class="form-submit">
-          <button type="submit" class="btn btn-primary btn-block">Log in &amp; play</button>
+          <button type="submit" class="btn btn-primary btn-block">Log In to View Results</button>
         </div>
       </form>
 
@@ -97,10 +86,9 @@
           </svg>
         </div>
         <p class="success-message"></p>
-        <p class="auth-switch">Didn't redirect? <a href="#" data-fallback-link>Continue</a></p>
+        <p class="auth-switch">Didn't open? <a href="#" data-fallback-link target="_blank" rel="noopener">Continue to results</a></p>
       </div>
 
-      <p class="auth-switch">New here? <a href="signup.html">Sign up</a></p>
     </div>
   </div>
 </main>
@@ -133,15 +121,16 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-notice">This website is a prototype demonstration. Nothing you enter is stored, and account creation and login do not represent a production authentication system.</p>
+      <p class="footer-notice">This website is a prototype demonstration. Nothing you enter is stored, and client sign-in does not represent a production authentication system. Research results open on a separate, client-facing site.</p>
       <p class="footer-copyright">&copy; 2026 Erevna Games. All rights reserved.</p>
     </div>
   </div>
 </footer>
 
+<script src="js/config.js"></script>
 <script src="js/session.js"></script>
 <script src="js/nav-auth.js"></script>
-<script src="js/validation.js"></script>
+<script src="js/client-login.js"></script>
 <script src="js/effects.js"></script>
 </body>
 </html>

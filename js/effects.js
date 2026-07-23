@@ -22,13 +22,16 @@
   var MIN_SPAWN_INTERVAL_MS = 45;
   var FADE_DELAY_MS = 60;
   var REMOVE_DELAY_MS = 500;
+  var COLORS = ['cyan', 'violet', 'magenta'];
 
   var lastSpawn = 0;
+  var colorIndex = 0;
   var activeDots = [];
 
   function spawnDot(x, y) {
     var dot = document.createElement('span');
-    dot.className = 'cursor-trail-dot';
+    dot.className = 'cursor-trail-dot cursor-trail-dot--' + COLORS[colorIndex % COLORS.length];
+    colorIndex += 1;
     dot.style.left = x + 'px';
     dot.style.top = y + 'px';
     document.body.appendChild(dot);

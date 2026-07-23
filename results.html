@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Results — MR.Play</title>
+<meta name="description" content="View your own MR.Play gameplay stats, history, leaderboards, and achievements — separate from any research data collected during play." />
+
+<link rel="icon" href="assets/favicon.png" type="image/png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="css/style.css" />
+
+<script src="js/session.js"></script>
+<script>
+  // Gate this page behind signup/login, before any dashboard content
+  // paints. Reuses the same session marker and ?from= return-to-page
+  // mechanic as games.html/validation.js — see js/session.js and
+  // js/results.js for the rest of this page's auth handling.
+  (function () {
+    if (!window.MRPlaySession || !window.MRPlaySession.get()) {
+      window.location.replace('login.html?from=results.html');
+    }
+  })();
+</script>
+</head>
+<body>
+
+<noscript>
+  <p class="noscript-banner">This MR.Play demo needs JavaScript enabled to work — please enable it and reload.</p>
+</noscript>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" class="brand" aria-label="MR.Play home">
+        <img src="assets/icon.png" alt="" />
+        <span class="brand-text">MR.Play</span>
+      </a>
+      <div class="nav-actions">
+        <a href="games.html" class="nav-link">Games</a>
+        <a href="results.html" class="nav-link is-active" aria-current="page">My Results</a>
+        <a href="client-login.html" class="nav-link">Clients</a>
+        <span class="nav-auth-links">
+          <a href="login.html?from=results.html" class="nav-link">Log In</a>
+          <a href="signup.html?from=results.html" class="btn btn-primary">Sign Up</a>
+        </span>
+        <button type="button" class="nav-user-pill" id="nav-user-pill" hidden title="Click to log out (demo)">
+          <span class="nav-user-avatar" id="nav-user-avatar"></span>
+          <span class="nav-user-name" id="nav-user-name"></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--lg bg-smoke--violet bg-smoke--drift-a bg-smoke--results-hero-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--cyan bg-pixel--hero-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--hero-2"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--magenta bg-pixel--hero-3"></span>
+      <span class="bg-pixel bg-pixel--s bg-pixel--green bg-pixel--hero-4"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-a bg-symbol--hero-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6.2 6.6.6-5 4.6 1.5 6.6L12 16.9 5.9 20l1.5-6.6-5-4.6 6.6-.6L12 2z"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <span class="eyebrow">Your Player Dashboard</span>
+      <h1>My <span class="gradient-text">Results</span></h1>
+      <p class="lede">
+        A look at your own gameplay activity — stats, history, leaderboards,
+        and achievements. This reflects how you've played, not the research
+        findings your gameplay contributes to, which stay with our research
+        clients.
+      </p>
+    </div>
+  </section>
+
+  <!-- Player Overview -->
+  <section class="section" id="player-overview">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--md bg-smoke--cyan bg-smoke--drift-a bg-smoke--overview-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--overview-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--overview-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-a bg-symbol--overview-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l3-5h8l3 5-7 11z"/><path d="M8 4l1.5 5L12 4.3 14.5 9 16 4"/><path d="M5 9h14"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="player-overview-header">
+        <span id="results-player-avatar" class="nav-user-avatar results-player-avatar"></span>
+        <div>
+          <p class="player-overview-name" id="results-player-name"></p>
+          <p class="player-overview-sub">Player Overview</p>
+        </div>
+      </div>
+
+      <div class="value-grid value-grid--bar">
+        <div class="value-item">
+          <h3>Games Played</h3>
+          <p id="stat-games-played"></p>
+        </div>
+        <div class="value-item">
+          <h3>Total Play Time</h3>
+          <p id="stat-play-time"></p>
+        </div>
+        <div class="value-item">
+          <h3>Last Game Played</h3>
+          <p id="stat-last-game"></p>
+        </div>
+        <div class="value-item">
+          <h3>Current Streak</h3>
+          <p id="stat-streak"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Results -->
+  <section class="section" id="recent-result">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--lg bg-smoke--violet bg-smoke--drift-b bg-smoke--recent-1"></div>
+      <span class="bg-pixel bg-pixel--m bg-pixel--magenta bg-pixel--recent-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--green bg-pixel--recent-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-b bg-symbol--recent-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M12 10v7"/><path d="M8 20h8"/><path d="M9 20l1-3h4l1 3"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow eyebrow--muted">Recent Results</span>
+        <h2>Your Latest Session</h2>
+      </div>
+
+      <div class="featured-game">
+        <div class="featured-game-media" id="recent-result-media"></div>
+        <div class="featured-game-body">
+          <span class="eyebrow">Most Recent Game</span>
+          <h2 id="recent-result-title"></h2>
+
+          <div class="value-grid value-grid--bar recent-result-stats">
+            <div class="value-item">
+              <h3>Score</h3>
+              <p id="recent-result-score"></p>
+            </div>
+            <div class="value-item">
+              <h3>Rank</h3>
+              <p id="recent-result-rank"></p>
+            </div>
+            <div class="value-item">
+              <h3>Completed</h3>
+              <p id="recent-result-date"></p>
+            </div>
+          </div>
+
+          <p class="form-section-label">Key decisions made</p>
+          <ul class="dot-list" id="recent-result-decisions"></ul>
+
+          <div class="featured-game-actions">
+            <button type="button" class="btn btn-primary" disabled title="Full results view isn't part of this demo">View Full Results</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Game History -->
+  <section class="section" id="game-history">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--sm bg-smoke--green bg-smoke--drift-a bg-smoke--history-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--cyan bg-pixel--history-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--violet bg-pixel--history-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--magenta bg-symbol--float-c bg-symbol--history-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow eyebrow--muted">Game History</span>
+        <h2>Everything You've Played and Explored</h2>
+        <p>Completed sessions and previews across the library.</p>
+      </div>
+
+      <div class="history-list" id="game-history-list"></div>
+    </div>
+  </section>
+
+  <!-- Leaderboards -->
+  <section class="section" id="leaderboards">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--md bg-smoke--magenta bg-smoke--drift-b bg-smoke--leaderboards-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--violet bg-pixel--how-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--how-2"></span>
+      <span class="bg-pixel bg-pixel--m bg-pixel--green bg-pixel--how-3"></span>
+    </div>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow eyebrow--muted">Leaderboards</span>
+        <h2>See How You Compare</h2>
+      </div>
+
+      <div class="value-grid value-grid--bar">
+        <div class="value-item">
+          <h3>Overall Ranking</h3>
+          <p id="lb-overall"></p>
+        </div>
+        <div class="value-item">
+          <h3>By Game</h3>
+          <p id="lb-by-game"></p>
+        </div>
+        <div class="value-item">
+          <h3>This Week</h3>
+          <p id="lb-weekly"></p>
+        </div>
+        <div class="value-item">
+          <h3>This Month</h3>
+          <p id="lb-monthly"></p>
+        </div>
+      </div>
+
+      <div class="leaderboard-columns">
+        <div>
+          <p class="form-section-label">Top Performers</p>
+          <div class="leaderboard-list" id="lb-top-performers"></div>
+        </div>
+        <div>
+          <p class="form-section-label">Friends</p>
+          <div class="leaderboard-list" id="lb-friends"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Badges and Achievements -->
+  <section class="section" id="badges">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--md bg-smoke--magenta bg-smoke--drift-b bg-smoke--badges-1"></div>
+      <span class="bg-pixel bg-pixel--m bg-pixel--cyan bg-pixel--badges-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--green bg-pixel--badges-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--cyan bg-symbol--float-a bg-symbol--badges-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M7 5H5a2 2 0 0 0 2 4"/><path d="M17 5h2a2 2 0 0 1-2 4"/><line x1="12" y1="13" x2="12" y2="17"/><line x1="9" y1="20" x2="15" y2="20"/><path d="M9.5 20c0-2 1-3 2.5-3s2.5 1 2.5 3"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow eyebrow--muted">Badges &amp; Achievements</span>
+        <h2>Milestones You've Unlocked</h2>
+      </div>
+
+      <div class="badge-grid" id="badge-grid"></div>
+    </div>
+  </section>
+
+  <!-- Research Contribution -->
+  <section class="section" id="research-contribution">
+    <div class="bg-decor" aria-hidden="true">
+      <div class="bg-smoke bg-smoke--sm bg-smoke--violet bg-smoke--drift-a bg-smoke--contribution-1"></div>
+      <span class="bg-pixel bg-pixel--s bg-pixel--magenta bg-pixel--contribution-1"></span>
+      <span class="bg-pixel bg-pixel--xs bg-pixel--cyan bg-pixel--contribution-2"></span>
+      <span class="bg-symbol bg-symbol--sm bg-symbol--violet bg-symbol--float-c bg-symbol--contribution-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="1.6"/><circle cx="12" cy="10" r="1.6"/><circle cx="18" cy="14" r="1.6"/><path d="M6 17l6-7 6 4"/></svg>
+      </span>
+    </div>
+    <div class="container">
+      <div class="prose-layout">
+        <div class="section-heading">
+          <span class="eyebrow eyebrow--muted">Research Contribution</span>
+          <p>
+            A summary of how your play has contributed — never the research
+            findings themselves, which stay with our research clients.
+          </p>
+        </div>
+        <div class="prose-section">
+          <div class="value-grid value-grid--bar">
+            <div class="value-item">
+              <h3>Studies Contributed To</h3>
+              <p id="research-studies"></p>
+            </div>
+            <div class="value-item">
+              <h3>Sessions</h3>
+              <p id="research-sessions"></p>
+            </div>
+            <div class="value-item">
+              <h3>Activity Type</h3>
+              <p id="research-activity-type"></p>
+            </div>
+          </div>
+
+          <p id="research-impact" class="prose-standout"></p>
+
+          <p class="form-section-label">What this helped researchers study</p>
+          <p id="research-purpose-quote" class="prose-emphasis"></p>
+
+          <p class="form-section-label">Participation History</p>
+          <ul class="dot-list" id="research-history-list"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-columns">
+      <div class="footer-brand">
+        <a href="index.html" class="brand" aria-label="MR.Play home">
+          <img src="assets/icon.png" alt="" />
+          <span class="brand-text">MR.Play</span>
+        </a>
+        <p class="footer-tagline">Where Research Meets Play</p>
+        <p class="footer-desc">Interactive game experiences designed to make market research participation more engaging.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="results.html">My Results</a></li>
+          <li><a href="signup.html">Sign Up</a></li>
+          <li><a href="login.html">Log In</a></li>
+          <li><a href="client-login.html">Clients</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <p class="footer-company-line">MR.Play is an Erevna Games experience.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-notice">This website is a prototype demonstration. All stats, history, and leaderboard data on this page are sample data, not real gameplay records.</p>
+      <p class="footer-copyright">&copy; 2026 Erevna Games. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/games-data.js"></script>
+<script src="js/nav-auth.js"></script>
+<script src="js/results-data.js"></script>
+<script src="js/results.js"></script>
+<script src="js/effects.js"></script>
+</body>
+</html>
